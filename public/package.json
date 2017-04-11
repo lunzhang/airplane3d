@@ -1,0 +1,26 @@
+{
+  "name": "public",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/app.js",
+  "scripts": {
+    "build": "webpack",
+    "start": "webpack-dev-server --inline --progress --port 8080",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "lun zhang",
+  "license": "MIT",
+  "devDependencies": {
+    "css-loader": "^0.26.2",
+    "file-loader": "^0.10.1",
+    "node-sass": "^4.5.0",
+    "sass-loader": "^6.0.2",
+    "style-loader": "^0.13.2",
+    "webpack": "^2.2.1",
+    "webpack-dev-server": "^2.4.1"
+  },
+  "dependencies": {
+    "socket.io-client": "^1.7.3",
+    "three": "^0.84.0"
+  }
+}
