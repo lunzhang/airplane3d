@@ -1,7 +1,7 @@
 export default class Tank{
 
   constructor(scene){
-    this.scene = scene;
+    this.scene  = scene;
     this.bullets = [];
     this.body = new THREE.Group();
 
@@ -15,7 +15,7 @@ export default class Tank{
     this.body.add(mesh);
 
     //cannon
-    geometry = new THREE.CylinderGeometry( .25, .25, 5, 20);
+    geometry = new THREE.CylinderGeometry(.25,.25,5,20);
     material = new THREE.MeshBasicMaterial( {color: 0xffff00} );
     mesh = new THREE.Mesh( geometry, material );
     mesh.rotation.z = 100*( Math.PI/180);
@@ -51,24 +51,28 @@ export default class Tank{
   }
 
   update(){
-
+    //movement of tank
     if(this.moveForward){
       this.body.translateX(1);
     }else if(this.moveBackward){
       this.body.translateX(-1);
     }
 
+    //rotation of tank
     if(this.turnLeft){
       this.body.rotateY(.1);
     }else if(this.turnRight){
       this.body.rotateY(-.1);
     }
 
+  }
+
+  updateBullets(){
+    //update of bullets
     for(let i = 0;i<this.bullets.length;i++){
         let bullet = this.bullets[i];
         bullet.translateX(5);
     }
-
   }
 
   fire(){
@@ -76,12 +80,36 @@ export default class Tank{
     let material = new THREE.MeshBasicMaterial( {color: 0x23190f} );
     let bullet = new THREE.Mesh( geometry, material );
 
-    bullet.position.copy(this.body.position);
     bullet.position.y = 3;
+    bullet.position.copy(this.body.position);
     bullet.rotation.copy(this.body.rotation);
 
     this.bullets.push(bullet);
     this.scene.add(bullet);
   }
-  
+
+  restart(){
+    for(let i = 0;i<this.bullets.length;i++){
+        this.scene.remove(this.bullets[i]);
+    }
+    let positionX = Math.floor(Math.random() * 50) - 25;
+    let positionZ = Math.floor(Math.random() * 50) - 25;
+    this.body.position.x = positionX;
+    this.body.position.z = positionZ;
+  }
+
+  toObject(){
+    return {
+        position:this.body.position,
+        rotation:this.body.rotation
+    };
+  }
+
+  destroy(){
+      for(let i = 0;i<this.bullets.length;i++){
+          this.scene.remove(this.bullets[i]);
+      }
+      this.scene.remove(this.body);
+  }
+
 }
