@@ -4,20 +4,25 @@ import * as CONSTANTS from './constants.js';
 export default class Game {
 
   constructor(socket,wrapper){
+    this.name = '';
     this.socket = socket;
     this.wrapper = wrapper;
     this.tanks = {};
-
+    this.display = document.getElementById('display');
     this.initGame();
+  }
+
+  start(name){
     this.initListeners();
     this.initSocket();
-
+    this.name = name;
+    let tank = this.tank.toObject();
+    tank.name = name;
+    this.socket.emit('enter',tank);
     this.animate();
   }
 
   initSocket(){
-
-    this.socket.emit('enter',this.tank.toObject());
 
     //constant update of other tanks
     this.socket.on('update',(tanks)=>{
@@ -34,6 +39,7 @@ export default class Game {
           newT.body.position.copy(tanks[prop].position);
           newT.body.rotation.copy(tanks[prop].rotation);
           this.tanks[prop] = newT;
+          this.appendMsg(tanks[prop].name + ' has entered');
         }
       }
 
@@ -43,6 +49,7 @@ export default class Game {
         if(!tank){
           this.tanks[prop].destroy();
           delete this.tanks[prop];
+          this.appendMsg(tank.name + ' has left');
         }
       }
     });
@@ -51,11 +58,24 @@ export default class Game {
       this.tank.restart();
     });
 
+    this.socket.on('msg',(msg)=>{
+      this.appendMsg(msg);
+    });
+
     this.socket.on('fire',(id)=>{
       let tank = this.tanks[id];
       tank.fire();
     });
 
+  }
+
+  appendMsg(msg){
+      debugger;
+      let newMsg = document.createElement('div');
+      newMsg.className = 'msg';
+      newMsg.textContent = msg;
+      this.display.appendChild(newMsg);
+      this.display.scrollTop = this.display.scrollHeight;
   }
 
   initGame(){

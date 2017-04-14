@@ -32,7 +32,11 @@ io.on('connection', function(socket){
   //user hits a target, let target know
   socket.on('hit',function(id){
       let hit = io.sockets.connected[id];
-      if(hit != undefined) hit.emit('hit');
+      let tank = tanks[socket.id];
+      if(hit != undefined){
+        socket.broadcast.emit(tank.name + ' has hit ' + tanks[id].name);
+        hit.emit('hit');
+      }
   });
 
   //user fires a missle

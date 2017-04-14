@@ -3903,20 +3903,25 @@ if(false) {
 class Game {
 
   constructor(socket,wrapper){
+    this.name = '';
     this.socket = socket;
     this.wrapper = wrapper;
     this.tanks = {};
-
+    this.display = document.getElementById('display');
     this.initGame();
+  }
+
+  start(name){
     this.initListeners();
     this.initSocket();
-
+    this.name = name;
+    let tank = this.tank.toObject();
+    tank.name = name;
+    this.socket.emit('enter',tank);
     this.animate();
   }
 
   initSocket(){
-
-    this.socket.emit('enter',this.tank.toObject());
 
     //constant update of other tanks
     this.socket.on('update',(tanks)=>{
@@ -3933,6 +3938,7 @@ class Game {
           newT.body.position.copy(tanks[prop].position);
           newT.body.rotation.copy(tanks[prop].rotation);
           this.tanks[prop] = newT;
+          this.appendMsg(tanks[prop].name + ' has entered');
         }
       }
 
@@ -3942,6 +3948,7 @@ class Game {
         if(!tank){
           this.tanks[prop].destroy();
           delete this.tanks[prop];
+          this.appendMsg(tank.name + ' has left');
         }
       }
     });
@@ -3950,11 +3957,23 @@ class Game {
       this.tank.restart();
     });
 
+    this.socket.on('msg',(msg)=>{
+      this.appendMsg(msg);
+    });
+    
     this.socket.on('fire',(id)=>{
       let tank = this.tanks[id];
       tank.fire();
     });
 
+  }
+
+  appendMsg(msg){
+      let newMsg = document.createElement('div');
+      newMsg.className = 'msg';
+      newMsg.textContent = msg;
+      this.display.appendChild(newMsg);
+      this.display.scrollTop = this.display.scrollHeight;
   }
 
   initGame(){
@@ -4487,7 +4506,7 @@ exports = module.exports = __webpack_require__(33)();
 
 
 // module
-exports.push([module.i, "html, body, #game-wrapper {\n  height: 100%;\n  margin: 0px;\n  overflow: hidden; }\n\nbody {\n  background-color: black; }\n\n#game-wrapper {\n  position: relative;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  max-width: 1200px;\n  max-height: 800px;\n  border: 1px solid #c7a7a7; }\n", ""]);
+exports.push([module.i, "html, body, #game-wrapper {\n  height: 100%;\n  margin: 0px;\n  overflow: hidden; }\n\nbody {\n  background-color: black; }\n\n#game-wrapper {\n  position: relative;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  max-width: 1200px;\n  max-height: 800px;\n  border: 1px solid #c7a7a7; }\n\n#display {\n  top: 10px;\n  position: absolute;\n  width: 200px;\n  height: 150px;\n  color: #b71e39;\n  cursor: default;\n  left: 10px;\n  font-size: 12px;\n  overflow: hidden;\n  -webkit-touch-callout: none;\n  -webkit-user-select: none;\n  -khtml-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none; }\n\n#name-wrapper {\n  color: white;\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  text-align: center; }\n  #name-wrapper button {\n    color: white;\n    background-color: #03A9F4;\n    margin-top: 10px;\n    padding: 10px 50px;\n    border: 1px solid #2196F3;\n    border-radius: 5px; }\n\n.msg {\n  word-wrap: break-word;\n  padding: 1px; }\n", ""]);
 
 // exports
 
@@ -9458,8 +9477,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 (function(){
-  const socket = __WEBPACK_IMPORTED_MODULE_2_socket_io_client___default()();
+  const socket = __WEBPACK_IMPORTED_MODULE_2_socket_io_client___default.a.connect('http://tank3d.herokuapp.com/');
   const wrapper = document.getElementById('game-wrapper');
+  const nameWrapper = document.getElementById('name-wrapper');
+  const startBtn = document.getElementById('startBtn');
+  const name = document.getElementById('name');
+
   const game = new __WEBPACK_IMPORTED_MODULE_1__game_js__["a" /* default */](socket,wrapper);
 
   const tanFOV = Math.tan( ( ( Math.PI / 180 ) * game.camera.fov / 2 ) );
@@ -9479,7 +9502,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       game.camera.updateProjectionMatrix();
   });
 
-  window.game = game;
+  startBtn.onclick = function(){
+      if(name.value.length > 0){
+          game.start(name.value);
+          nameWrapper.style['display'] = 'none';
+      }
+  };
 
 })();
 
