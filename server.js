@@ -34,7 +34,7 @@ io.on('connection', function(socket){
       let hit = io.sockets.connected[id];
       let tank = tanks[socket.id];
       if(hit != undefined){
-        io.sockets.emit(tank.name + ' has hit ' + tanks[id].name);
+        io.sockets.emit('msg',tank.name + ' has hit ' + tanks[id].name);
         hit.emit('hit');
       }
   });
