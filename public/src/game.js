@@ -1,6 +1,6 @@
 import Tank from './tank.js';
 import * as CONSTANTS from './constants.js';
-console.log(CONSTANTS);
+
 export default class Game {
 
   constructor(socket,wrapper){
