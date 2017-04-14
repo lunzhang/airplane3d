@@ -4,7 +4,6 @@ import * as CONSTANTS from './constants.js';
 export default class Game {
 
   constructor(socket,wrapper){
-    this.name = '';
     this.socket = socket;
     this.wrapper = wrapper;
     this.tanks = {};
@@ -13,12 +12,10 @@ export default class Game {
   }
 
   start(name){
+    this.tank.name = name;
     this.initListeners();
     this.initSocket();
-    this.name = name;
-    let tank = this.tank.toObject();
-    tank.name = name;
-    this.socket.emit('enter',tank);
+    this.socket.emit('enter',this.tank.toObject());
     this.animate();
   }
 
@@ -35,7 +32,7 @@ export default class Game {
           tank.body.rotation.copy(tanks[prop].rotation);
         }else{
           //create new tank
-          let newT = new Tank(this.scene,CONSTANTS.TANKS_COLORS);
+          let newT = new Tank(this.scene,CONSTANTS.TANKS_COLORS,tanks[prop].name);
           newT.body.position.copy(tanks[prop].position);
           newT.body.rotation.copy(tanks[prop].rotation);
           this.tanks[prop] = newT;
@@ -47,9 +44,9 @@ export default class Game {
       for(let prop in this.tanks){
         let tank = tanks[prop];
         if(!tank){
+          this.appendMsg(this.tanks[prop].name + ' has left');
           this.tanks[prop].destroy();
           delete this.tanks[prop];
-          this.appendMsg(tank.name + ' has left');
         }
       }
     });
@@ -70,7 +67,6 @@ export default class Game {
   }
 
   appendMsg(msg){
-      debugger;
       let newMsg = document.createElement('div');
       newMsg.className = 'msg';
       newMsg.textContent = msg;
@@ -85,7 +81,7 @@ export default class Game {
 
     this.camera.position.y = 100;
 
-    this.tank = new Tank(this.scene,CONSTANTS.TANK_COLORS);
+    this.tank = new Tank(this.scene,CONSTANTS.TANK_COLORS,this.name);
 
     let positionX = Math.floor(Math.random() * CONSTANTS.WORLD_SIZE*2) - CONSTANTS.WORLD_SIZE;
     let positionZ = Math.floor(Math.random() * CONSTANTS.WORLD_SIZE*2) - CONSTANTS.WORLD_SIZE;

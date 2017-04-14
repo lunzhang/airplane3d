@@ -2,7 +2,8 @@ import * as CONSTANTS from './constants.js';
 
 export default class Tank{
 
-  constructor(scene,color){
+  constructor(scene,color,name){
+    this.name = name;
     this.scene  = scene;
     this.bullets = [];
     this.body = new THREE.Group();
@@ -102,6 +103,7 @@ export default class Tank{
 
   toObject(){
     return {
+        name: this.name,
         position:this.body.position,
         rotation:this.body.rotation
     };

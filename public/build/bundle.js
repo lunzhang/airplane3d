@@ -3903,7 +3903,6 @@ if(false) {
 class Game {
 
   constructor(socket,wrapper){
-    this.name = '';
     this.socket = socket;
     this.wrapper = wrapper;
     this.tanks = {};
@@ -3912,12 +3911,10 @@ class Game {
   }
 
   start(name){
+    this.tank.name = name;
     this.initListeners();
     this.initSocket();
-    this.name = name;
-    let tank = this.tank.toObject();
-    tank.name = name;
-    this.socket.emit('enter',tank);
+    this.socket.emit('enter',this.tank.toObject());
     this.animate();
   }
 
@@ -3934,7 +3931,7 @@ class Game {
           tank.body.rotation.copy(tanks[prop].rotation);
         }else{
           //create new tank
-          let newT = new __WEBPACK_IMPORTED_MODULE_0__tank_js__["a" /* default */](this.scene,__WEBPACK_IMPORTED_MODULE_1__constants_js__["a" /* TANKS_COLORS */]);
+          let newT = new __WEBPACK_IMPORTED_MODULE_0__tank_js__["a" /* default */](this.scene,__WEBPACK_IMPORTED_MODULE_1__constants_js__["a" /* TANKS_COLORS */],tanks[prop].name);
           newT.body.position.copy(tanks[prop].position);
           newT.body.rotation.copy(tanks[prop].rotation);
           this.tanks[prop] = newT;
@@ -3946,9 +3943,9 @@ class Game {
       for(let prop in this.tanks){
         let tank = tanks[prop];
         if(!tank){
+          this.appendMsg(this.tanks[prop].name + ' has left');
           this.tanks[prop].destroy();
           delete this.tanks[prop];
-          this.appendMsg(tank.name + ' has left');
         }
       }
     });
@@ -3960,7 +3957,7 @@ class Game {
     this.socket.on('msg',(msg)=>{
       this.appendMsg(msg);
     });
-    
+
     this.socket.on('fire',(id)=>{
       let tank = this.tanks[id];
       tank.fire();
@@ -3983,7 +3980,7 @@ class Game {
 
     this.camera.position.y = 100;
 
-    this.tank = new __WEBPACK_IMPORTED_MODULE_0__tank_js__["a" /* default */](this.scene,__WEBPACK_IMPORTED_MODULE_1__constants_js__["b" /* TANK_COLORS */]);
+    this.tank = new __WEBPACK_IMPORTED_MODULE_0__tank_js__["a" /* default */](this.scene,__WEBPACK_IMPORTED_MODULE_1__constants_js__["b" /* TANK_COLORS */],this.name);
 
     let positionX = Math.floor(Math.random() * __WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */]*2) - __WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */];
     let positionZ = Math.floor(Math.random() * __WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */]*2) - __WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */];
@@ -9522,7 +9519,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 class Tank{
 
-  constructor(scene,color){
+  constructor(scene,color,name){
+    this.name = name;
     this.scene  = scene;
     this.bullets = [];
     this.body = new THREE.Group();
@@ -9622,6 +9620,7 @@ class Tank{
 
   toObject(){
     return {
+        name: this.name,
         position:this.body.position,
         rotation:this.body.rotation
     };
