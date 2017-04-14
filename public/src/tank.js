@@ -1,6 +1,8 @@
+import * as CONSTANTS from './constants.js';
+
 export default class Tank{
 
-  constructor(scene){
+  constructor(scene,color){
     this.scene  = scene;
     this.bullets = [];
     this.body = new THREE.Group();
@@ -9,14 +11,14 @@ export default class Tank{
 
     //top body
     geometry = new THREE.BoxGeometry(3.5,1.5,3);
-    material = new THREE.MeshPhongMaterial({color:'blue'});
+    material = new THREE.MeshPhongMaterial({color:color.top});
     mesh = new THREE.Mesh(geometry, material);
     mesh.position.y = 1.5;
     this.body.add(mesh);
 
     //cannon
     geometry = new THREE.CylinderGeometry(.25,.25,5,20);
-    material = new THREE.MeshBasicMaterial( {color: 0xffff00} );
+    material = new THREE.MeshBasicMaterial({color:color.cannon});
     mesh = new THREE.Mesh( geometry, material );
     mesh.rotation.z = 100*( Math.PI/180);
     mesh.position.y = 1.5;
@@ -25,13 +27,13 @@ export default class Tank{
 
     //bottom body
     geometry = new THREE.BoxGeometry(7,2,5);
-    material = new THREE.MeshPhongMaterial({color:0xf25346});
+    material = new THREE.MeshPhongMaterial({color:color.bottom});
     mesh = new THREE.Mesh(geometry, material);
     this.body.add(mesh);
 
     //left tire
     geometry = new THREE.CylinderGeometry( 1, 1, 6, 20);
-    material = new THREE.MeshBasicMaterial( {color: 0xffff00} );
+    material = new THREE.MeshBasicMaterial({color:color.tires});
     mesh = new THREE.Mesh( geometry, material );
     mesh.rotation.z = 90*( Math.PI/180);
     mesh.position.z = -2.5;
@@ -40,7 +42,7 @@ export default class Tank{
 
     //right tire
     geometry = new THREE.CylinderGeometry( 1, 1, 6, 20);
-    material = new THREE.MeshBasicMaterial( {color: 0xffff00} );
+    material = new THREE.MeshBasicMaterial({color:color.tires});
     mesh = new THREE.Mesh( geometry, material );
     mesh.rotation.z = 90*( Math.PI/180);
     mesh.position.z = 2.5;
@@ -92,8 +94,8 @@ export default class Tank{
     for(let i = 0;i<this.bullets.length;i++){
         this.scene.remove(this.bullets[i]);
     }
-    let positionX = Math.floor(Math.random() * 50) - 25;
-    let positionZ = Math.floor(Math.random() * 50) - 25;
+    let positionX = Math.floor(Math.random() * CONSTANTS.WORLD_SIZE*2) - CONSTANTS.WORLD_SIZE;
+    let positionZ = Math.floor(Math.random() * CONSTANTS.WORLD_SIZE*2) - CONSTANTS.WORLD_SIZE;
     this.body.position.x = positionX;
     this.body.position.z = positionZ;
   }

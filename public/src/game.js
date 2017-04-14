@@ -30,7 +30,7 @@ export default class Game {
           tank.body.rotation.copy(tanks[prop].rotation);
         }else{
           //create new tank
-          let newT = new Tank(this.scene);
+          let newT = new Tank(this.scene,CONSTANTS.TANKS_COLORS);
           newT.body.position.copy(tanks[prop].position);
           newT.body.rotation.copy(tanks[prop].rotation);
           this.tanks[prop] = newT;
@@ -60,15 +60,15 @@ export default class Game {
 
   initGame(){
     this.scene = new THREE.Scene();
-    this.camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 2000 );
+    this.camera = new THREE.PerspectiveCamera( 45, this.wrapper.clientWidth / this.wrapper.clientHeight, 1, 2000 );
     this.renderer = new THREE.WebGLRenderer();
 
     this.camera.position.y = 100;
 
-    this.tank = new Tank(this.scene);
+    this.tank = new Tank(this.scene,CONSTANTS.TANK_COLORS);
 
-    let positionX = Math.floor(Math.random() * 50) - 25;
-    let positionZ = Math.floor(Math.random() * 50) - 25;
+    let positionX = Math.floor(Math.random() * CONSTANTS.WORLD_SIZE*2) - CONSTANTS.WORLD_SIZE;
+    let positionZ = Math.floor(Math.random() * CONSTANTS.WORLD_SIZE*2) - CONSTANTS.WORLD_SIZE;
 
     this.tank.body.position.y = 1.5;
     this.tank.body.position.x = positionX;
@@ -87,9 +87,9 @@ export default class Game {
     this.scene.add(shadowLight);
 
     //add ground
-    var geometry = new THREE.PlaneGeometry(CONSTANTS.WORLD_SIZE*2,CONSTANTS.WORLD_SIZE*2);
-    var material = new THREE.MeshBasicMaterial( {color: 'white', side: THREE.DoubleSide} );
-    var ground = new THREE.Mesh( geometry, material );
+    let geometry = new THREE.PlaneGeometry(CONSTANTS.WORLD_SIZE*2,CONSTANTS.WORLD_SIZE*2);
+    let material = new THREE.MeshBasicMaterial( {color: 'white', side: THREE.DoubleSide} );
+    let ground = new THREE.Mesh( geometry, material );
     ground.rotation.x = 90*( Math.PI/180);
     this.scene.add(ground);
 
@@ -113,10 +113,6 @@ export default class Game {
         break;
         case 'KeyD':
         this.tank.turnRight = true;
-        break;
-        case 'Space':
-        this.tank.fire();
-        this.socket.emit('fire');
         break;
       }
     });
@@ -223,7 +219,7 @@ export default class Game {
     this.tank.updateBullets();
 
     //update tanks bullets
-    for(var prop in this.tanks){
+    for(let prop in this.tanks){
       if(prop === this.socket.id) continue;
       let tank = this.tanks[prop];
       tank.updateBullets();

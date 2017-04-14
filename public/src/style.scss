@@ -3,3 +3,17 @@ html,body,#game-wrapper{
   margin:0px;
   overflow: hidden;
 }
+
+body{
+  background-color:black;
+}
+
+#game-wrapper{
+  position: relative;
+  top:50%;
+  left: 50%;
+  transform:translate(-50%,-50%);
+  max-width: 1200px;
+  max-height: 800px;
+  border:1px solid #c7a7a7;
+}

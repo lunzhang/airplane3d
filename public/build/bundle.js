@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "/build/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 59);
+/******/ 	return __webpack_require__(__webpack_require__.s = 60);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -101,15 +101,15 @@ module.exports = g;
  * Module dependencies.
  */
 
-var keys = __webpack_require__(43);
+var keys = __webpack_require__(44);
 var hasBinary = __webpack_require__(13);
-var sliceBuffer = __webpack_require__(27);
-var after = __webpack_require__(26);
-var utf8 = __webpack_require__(58);
+var sliceBuffer = __webpack_require__(28);
+var after = __webpack_require__(27);
+var utf8 = __webpack_require__(59);
 
 var base64encoder;
 if (global && global.ArrayBuffer) {
-  base64encoder = __webpack_require__(29);
+  base64encoder = __webpack_require__(30);
 }
 
 /**
@@ -167,7 +167,7 @@ var err = { type: 'error', data: 'parser error' };
  * Create a blob api even for blob builder when vendor prefixes exist
  */
 
-var Blob = __webpack_require__(30);
+var Blob = __webpack_require__(31);
 
 /**
  * Encodes a packet.
@@ -901,7 +901,7 @@ module.exports = function(a, b){
  * Expose `debug()` as the module.
  */
 
-exports = module.exports = __webpack_require__(41);
+exports = module.exports = __webpack_require__(42);
 exports.log = log;
 exports.formatArgs = formatArgs;
 exports.save = save;
@@ -1085,7 +1085,7 @@ function localstorage(){
  * Expose `debug()` as the module.
  */
 
-exports = module.exports = __webpack_require__(50);
+exports = module.exports = __webpack_require__(51);
 exports.log = log;
 exports.formatArgs = formatArgs;
 exports.save = save;
@@ -1427,7 +1427,7 @@ Transport.prototype.onClose = function () {
 
 /* WEBPACK VAR INJECTION */(function(global) {// browser shim for xmlhttprequest module
 
-var hasCORS = __webpack_require__(45);
+var hasCORS = __webpack_require__(46);
 
 module.exports = function (opts) {
   var xdomain = opts.xdomain;
@@ -1517,10 +1517,10 @@ exports.decode = function(qs){
  * Module dependencies.
  */
 
-var debug = __webpack_require__(33)('socket.io-parser');
-var json = __webpack_require__(46);
-var Emitter = __webpack_require__(53);
-var binary = __webpack_require__(52);
+var debug = __webpack_require__(34)('socket.io-parser');
+var json = __webpack_require__(47);
+var Emitter = __webpack_require__(54);
+var binary = __webpack_require__(53);
 var isBuf = __webpack_require__(20);
 
 /**
@@ -1956,9 +1956,9 @@ module.exports = function(obj, fn){
  */
 
 var XMLHttpRequest = __webpack_require__(7);
-var XHR = __webpack_require__(39);
-var JSONP = __webpack_require__(38);
-var websocket = __webpack_require__(40);
+var XHR = __webpack_require__(40);
+var JSONP = __webpack_require__(39);
+var websocket = __webpack_require__(41);
 
 /**
  * Export transports.
@@ -2267,7 +2267,7 @@ Polling.prototype.uri = function () {
  * Module requirements.
  */
 
-var isArray = __webpack_require__(44);
+var isArray = __webpack_require__(45);
 
 /**
  * Module exports.
@@ -2579,7 +2579,7 @@ process.umask = function() { return 0; };
  * Module dependencies.
  */
 
-var eio = __webpack_require__(35);
+var eio = __webpack_require__(36);
 var Socket = __webpack_require__(19);
 var Emitter = __webpack_require__(2);
 var parser = __webpack_require__(9);
@@ -2587,7 +2587,7 @@ var on = __webpack_require__(18);
 var bind = __webpack_require__(10);
 var debug = __webpack_require__(5)('socket.io-client:manager');
 var indexOf = __webpack_require__(14);
-var Backoff = __webpack_require__(28);
+var Backoff = __webpack_require__(29);
 
 /**
  * IE6+ hasOwnProperty
@@ -3177,7 +3177,7 @@ function on (obj, ev, fn) {
 
 var parser = __webpack_require__(9);
 var Emitter = __webpack_require__(2);
-var toArray = __webpack_require__(56);
+var toArray = __webpack_require__(57);
 var on = __webpack_require__(18);
 var bind = __webpack_require__(10);
 var debug = __webpack_require__(5)('socket.io-client:socket');
@@ -3716,6 +3716,41 @@ module.exports = yeast;
 
 /***/ }),
 /* 23 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+const WORLD_SIZE = 150;
+/* harmony export (immutable) */ __webpack_exports__["c"] = WORLD_SIZE;
+
+const TANK_SIZE_X = 7;
+/* harmony export (immutable) */ __webpack_exports__["d"] = TANK_SIZE_X;
+
+const TANK_SIZE_Z = 5;
+/* harmony export (immutable) */ __webpack_exports__["f"] = TANK_SIZE_Z;
+
+const BULLET_RADIUS = 1;
+/* harmony export (immutable) */ __webpack_exports__["e"] = BULLET_RADIUS;
+
+const TANK_COLORS = {
+  top:0xf25346,
+	bottom:0xF5986E,
+	cannon:0x59332e,
+	tires:0x68c3c0
+};
+/* harmony export (immutable) */ __webpack_exports__["b"] = TANK_COLORS;
+
+const TANKS_COLORS = {
+  top:0xF5986E,
+	bottom:0x59332e,
+	cannon:0x23190f,
+	tires:0x23190f
+};
+/* harmony export (immutable) */ __webpack_exports__["a"] = TANKS_COLORS;
+
+
+
+/***/ }),
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -3723,7 +3758,7 @@ module.exports = yeast;
  * Module dependencies.
  */
 
-var url = __webpack_require__(49);
+var url = __webpack_require__(50);
 var parser = __webpack_require__(9);
 var Manager = __webpack_require__(17);
 var debug = __webpack_require__(5)('socket.io-client');
@@ -3830,16 +3865,16 @@ exports.Socket = __webpack_require__(19);
 
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(31);
+var content = __webpack_require__(32);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(55)(content, {});
+var update = __webpack_require__(56)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -3856,12 +3891,12 @@ if(false) {
 }
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__tank_js__ = __webpack_require__(61);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__constants_js__ = __webpack_require__(60);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__constants_js__ = __webpack_require__(23);
 
 
 
@@ -3894,7 +3929,7 @@ class Game {
           tank.body.rotation.copy(tanks[prop].rotation);
         }else{
           //create new tank
-          let newT = new __WEBPACK_IMPORTED_MODULE_0__tank_js__["a" /* default */](this.scene);
+          let newT = new __WEBPACK_IMPORTED_MODULE_0__tank_js__["a" /* default */](this.scene,__WEBPACK_IMPORTED_MODULE_1__constants_js__["a" /* TANKS_COLORS */]);
           newT.body.position.copy(tanks[prop].position);
           newT.body.rotation.copy(tanks[prop].rotation);
           this.tanks[prop] = newT;
@@ -3924,15 +3959,15 @@ class Game {
 
   initGame(){
     this.scene = new THREE.Scene();
-    this.camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 2000 );
+    this.camera = new THREE.PerspectiveCamera( 45, this.wrapper.clientWidth / this.wrapper.clientHeight, 1, 2000 );
     this.renderer = new THREE.WebGLRenderer();
 
     this.camera.position.y = 100;
 
-    this.tank = new __WEBPACK_IMPORTED_MODULE_0__tank_js__["a" /* default */](this.scene);
+    this.tank = new __WEBPACK_IMPORTED_MODULE_0__tank_js__["a" /* default */](this.scene,__WEBPACK_IMPORTED_MODULE_1__constants_js__["b" /* TANK_COLORS */]);
 
-    let positionX = Math.floor(Math.random() * 50) - 25;
-    let positionZ = Math.floor(Math.random() * 50) - 25;
+    let positionX = Math.floor(Math.random() * __WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */]*2) - __WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */];
+    let positionZ = Math.floor(Math.random() * __WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */]*2) - __WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */];
 
     this.tank.body.position.y = 1.5;
     this.tank.body.position.x = positionX;
@@ -3951,9 +3986,9 @@ class Game {
     this.scene.add(shadowLight);
 
     //add ground
-    var geometry = new THREE.PlaneGeometry(__WEBPACK_IMPORTED_MODULE_1__constants_js__["a" /* WORLD_SIZE */]*2,__WEBPACK_IMPORTED_MODULE_1__constants_js__["a" /* WORLD_SIZE */]*2);
-    var material = new THREE.MeshBasicMaterial( {color: 'white', side: THREE.DoubleSide} );
-    var ground = new THREE.Mesh( geometry, material );
+    let geometry = new THREE.PlaneGeometry(__WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */]*2,__WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */]*2);
+    let material = new THREE.MeshBasicMaterial( {color: 'white', side: THREE.DoubleSide} );
+    let ground = new THREE.Mesh( geometry, material );
     ground.rotation.x = 90*( Math.PI/180);
     this.scene.add(ground);
 
@@ -3977,10 +4012,6 @@ class Game {
         break;
         case 'KeyD':
         this.tank.turnRight = true;
-        break;
-        case 'Space':
-        this.tank.fire();
-        this.socket.emit('fire');
         break;
       }
     });
@@ -4016,7 +4047,7 @@ class Game {
       let bullet = this.tank.bullets[i];
 
       //out of bounds
-      if(bullet.position.x > __WEBPACK_IMPORTED_MODULE_1__constants_js__["a" /* WORLD_SIZE */] || bullet.position.x < -__WEBPACK_IMPORTED_MODULE_1__constants_js__["a" /* WORLD_SIZE */] || bullet.position.z > __WEBPACK_IMPORTED_MODULE_1__constants_js__["a" /* WORLD_SIZE */] || bullet.position.z < -__WEBPACK_IMPORTED_MODULE_1__constants_js__["a" /* WORLD_SIZE */]){
+      if(bullet.position.x > __WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */] || bullet.position.x < -__WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */] || bullet.position.z > __WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */] || bullet.position.z < -__WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */]){
         this.scene.remove(bullet);
         this.tank.bullets.splice(i,1);
         continue;
@@ -4031,17 +4062,17 @@ class Game {
         let circleDistZ =Math.abs(bullet.position.z - tank.body.position.z);
 
         //false
-        if(circleDistX > (__WEBPACK_IMPORTED_MODULE_1__constants_js__["b" /* TANK_SIZE_X */]/2 + __WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* BULLET_RADIUS */]) ||
-        circleDistZ > (__WEBPACK_IMPORTED_MODULE_1__constants_js__["d" /* TANK_SIZE_Z */]/2 + __WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* BULLET_RADIUS */])) {
+        if(circleDistX > (__WEBPACK_IMPORTED_MODULE_1__constants_js__["d" /* TANK_SIZE_X */]/2 + __WEBPACK_IMPORTED_MODULE_1__constants_js__["e" /* BULLET_RADIUS */]) ||
+        circleDistZ > (__WEBPACK_IMPORTED_MODULE_1__constants_js__["f" /* TANK_SIZE_Z */]/2 + __WEBPACK_IMPORTED_MODULE_1__constants_js__["e" /* BULLET_RADIUS */])) {
           continue;
         }
 
-        let cornerDistance_sq = Math.pow(circleDistX - __WEBPACK_IMPORTED_MODULE_1__constants_js__["b" /* TANK_SIZE_X */]/2,2) +
-        Math.pow(circleDistZ - __WEBPACK_IMPORTED_MODULE_1__constants_js__["d" /* TANK_SIZE_Z */]/2,2);
+        let cornerDistance_sq = Math.pow(circleDistX - __WEBPACK_IMPORTED_MODULE_1__constants_js__["d" /* TANK_SIZE_X */]/2,2) +
+        Math.pow(circleDistZ - __WEBPACK_IMPORTED_MODULE_1__constants_js__["f" /* TANK_SIZE_Z */]/2,2);
 
         //true
-        if(cornerDistance_sq <= (__WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* BULLET_RADIUS */]) || circleDistX <= (__WEBPACK_IMPORTED_MODULE_1__constants_js__["b" /* TANK_SIZE_X */]/2) ||
-        circleDistZ <= (__WEBPACK_IMPORTED_MODULE_1__constants_js__["d" /* TANK_SIZE_Z */]/2)){
+        if(cornerDistance_sq <= (__WEBPACK_IMPORTED_MODULE_1__constants_js__["e" /* BULLET_RADIUS */]) || circleDistX <= (__WEBPACK_IMPORTED_MODULE_1__constants_js__["d" /* TANK_SIZE_X */]/2) ||
+        circleDistZ <= (__WEBPACK_IMPORTED_MODULE_1__constants_js__["f" /* TANK_SIZE_Z */]/2)){
           this.scene.remove(bullet);
           this.tank.bullets.splice(i,1);
           this.socket.emit('hit',prop);
@@ -4056,7 +4087,7 @@ class Game {
       //out of bounds
       for(let i = tank.bullets.length-1; i>=0; i--){
         let bullet = tank.bullets[i];
-        if(bullet.position.x > __WEBPACK_IMPORTED_MODULE_1__constants_js__["a" /* WORLD_SIZE */] || bullet.position.x < -__WEBPACK_IMPORTED_MODULE_1__constants_js__["a" /* WORLD_SIZE */] || bbullet.position.z > __WEBPACK_IMPORTED_MODULE_1__constants_js__["a" /* WORLD_SIZE */] || bullet.position.z < -__WEBPACK_IMPORTED_MODULE_1__constants_js__["a" /* WORLD_SIZE */]){
+        if(bullet.position.x > __WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */] || bullet.position.x < -__WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */] || bbullet.position.z > __WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */] || bullet.position.z < -__WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */]){
           this.scene.remove(bullet);
           tank.bullets.splice(i,1);
         }
@@ -4064,16 +4095,16 @@ class Game {
     }
 
     //tank bounds
-    if(this.tank.body.position.x > __WEBPACK_IMPORTED_MODULE_1__constants_js__["a" /* WORLD_SIZE */]){
-      this.tank.body.position.x = __WEBPACK_IMPORTED_MODULE_1__constants_js__["a" /* WORLD_SIZE */];
-    }else if(this.tank.body.position.x < -__WEBPACK_IMPORTED_MODULE_1__constants_js__["a" /* WORLD_SIZE */]){
-      this.tank.body.position.x = -__WEBPACK_IMPORTED_MODULE_1__constants_js__["a" /* WORLD_SIZE */];
+    if(this.tank.body.position.x > __WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */]){
+      this.tank.body.position.x = __WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */];
+    }else if(this.tank.body.position.x < -__WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */]){
+      this.tank.body.position.x = -__WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */];
     }
 
-    if(this.tank.body.position.z > __WEBPACK_IMPORTED_MODULE_1__constants_js__["a" /* WORLD_SIZE */]){
-      this.tank.body.position.z = __WEBPACK_IMPORTED_MODULE_1__constants_js__["a" /* WORLD_SIZE */];
-    }else if(this.tank.body.position.z < -__WEBPACK_IMPORTED_MODULE_1__constants_js__["a" /* WORLD_SIZE */]){
-      this.tank.body.position.z = -__WEBPACK_IMPORTED_MODULE_1__constants_js__["a" /* WORLD_SIZE */];
+    if(this.tank.body.position.z > __WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */]){
+      this.tank.body.position.z = __WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */];
+    }else if(this.tank.body.position.z < -__WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */]){
+      this.tank.body.position.z = -__WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */];
     }
 
   }
@@ -4087,7 +4118,7 @@ class Game {
     this.tank.updateBullets();
 
     //update tanks bullets
-    for(var prop in this.tanks){
+    for(let prop in this.tanks){
       if(prop === this.socket.id) continue;
       let tank = this.tanks[prop];
       tank.updateBullets();
@@ -4112,7 +4143,7 @@ class Game {
 
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports) {
 
 module.exports = after
@@ -4146,7 +4177,7 @@ function noop() {}
 
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports) {
 
 /**
@@ -4181,7 +4212,7 @@ module.exports = function(arraybuffer, start, end) {
 
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, exports) {
 
 
@@ -4272,7 +4303,7 @@ Backoff.prototype.setJitter = function(jitter){
 
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports) {
 
 /*
@@ -4345,7 +4376,7 @@ Backoff.prototype.setJitter = function(jitter){
 
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -4448,21 +4479,21 @@ module.exports = (function() {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(32)();
+exports = module.exports = __webpack_require__(33)();
 // imports
 
 
 // module
-exports.push([module.i, "html, body, #game-wrapper {\n  height: 100%;\n  margin: 0px;\n  overflow: hidden; }\n", ""]);
+exports.push([module.i, "html, body, #game-wrapper {\n  height: 100%;\n  margin: 0px;\n  overflow: hidden; }\n\nbody {\n  background-color: black; }\n\n#game-wrapper {\n  position: relative;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  max-width: 1200px;\n  max-height: 800px;\n  border: 1px solid #c7a7a7; }\n", ""]);
 
 // exports
 
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, exports) {
 
 /*
@@ -4518,7 +4549,7 @@ module.exports = function() {
 
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -4528,7 +4559,7 @@ module.exports = function() {
  * Expose `debug()` as the module.
  */
 
-exports = module.exports = __webpack_require__(34);
+exports = module.exports = __webpack_require__(35);
 exports.log = log;
 exports.formatArgs = formatArgs;
 exports.save = save;
@@ -4692,7 +4723,7 @@ function localstorage(){
 
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -4708,7 +4739,7 @@ exports.coerce = coerce;
 exports.disable = disable;
 exports.enable = enable;
 exports.enabled = enabled;
-exports.humanize = __webpack_require__(47);
+exports.humanize = __webpack_require__(48);
 
 /**
  * The currently active debug mode names, and names to skip.
@@ -4895,19 +4926,19 @@ function coerce(val) {
 
 
 /***/ }),
-/* 35 */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-module.exports = __webpack_require__(36);
-
-
-/***/ }),
 /* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 module.exports = __webpack_require__(37);
+
+
+/***/ }),
+/* 37 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+module.exports = __webpack_require__(38);
 
 /**
  * Exports parser
@@ -4919,7 +4950,7 @@ module.exports.parser = __webpack_require__(1);
 
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -4932,7 +4963,7 @@ var debug = __webpack_require__(4)('engine.io-client:socket');
 var index = __webpack_require__(14);
 var parser = __webpack_require__(1);
 var parseuri = __webpack_require__(15);
-var parsejson = __webpack_require__(48);
+var parsejson = __webpack_require__(49);
 var parseqs = __webpack_require__(8);
 
 /**
@@ -5664,7 +5695,7 @@ Socket.prototype.filterUpgrades = function (upgrades) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {
@@ -5902,7 +5933,7 @@ JSONPPolling.prototype.doWrite = function (data, fn) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -6333,7 +6364,7 @@ function unloadHandler () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -6625,7 +6656,7 @@ WS.prototype.check = function () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 41 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -6641,7 +6672,7 @@ exports.coerce = coerce;
 exports.disable = disable;
 exports.enable = enable;
 exports.enabled = enabled;
-exports.humanize = __webpack_require__(42);
+exports.humanize = __webpack_require__(43);
 
 /**
  * The currently active debug mode names, and names to skip.
@@ -6831,7 +6862,7 @@ function coerce(val) {
 
 
 /***/ }),
-/* 42 */
+/* 43 */
 /***/ (function(module, exports) {
 
 /**
@@ -6986,7 +7017,7 @@ function plural(ms, n, name) {
 
 
 /***/ }),
-/* 43 */
+/* 44 */
 /***/ (function(module, exports) {
 
 
@@ -7011,7 +7042,7 @@ module.exports = Object.keys || function keys (obj){
 
 
 /***/ }),
-/* 44 */
+/* 45 */
 /***/ (function(module, exports) {
 
 module.exports = Array.isArray || function (arr) {
@@ -7020,7 +7051,7 @@ module.exports = Array.isArray || function (arr) {
 
 
 /***/ }),
-/* 45 */
+/* 46 */
 /***/ (function(module, exports) {
 
 
@@ -7043,14 +7074,14 @@ try {
 
 
 /***/ }),
-/* 46 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module, global) {var __WEBPACK_AMD_DEFINE_RESULT__;/*! JSON v3.3.2 | http://bestiejs.github.io/json3 | Copyright 2012-2014, Kit Cambridge | http://kit.mit-license.org */
 ;(function () {
   // Detect the `define` function exposed by asynchronous module loaders. The
   // strict `define` check is necessary for compatibility with `r.js`.
-  var isLoader = "function" === "function" && __webpack_require__(57);
+  var isLoader = "function" === "function" && __webpack_require__(58);
 
   // A set of types used to distinguish objects from primitives.
   var objectTypes = {
@@ -7953,7 +7984,7 @@ try {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(21)(module), __webpack_require__(0)))
 
 /***/ }),
-/* 47 */
+/* 48 */
 /***/ (function(module, exports) {
 
 /**
@@ -8084,7 +8115,7 @@ function plural(ms, n, name) {
 
 
 /***/ }),
-/* 48 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -8122,7 +8153,7 @@ module.exports = function parsejson(data) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 49 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {
@@ -8204,7 +8235,7 @@ function url (uri, loc) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 50 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -8220,7 +8251,7 @@ exports.coerce = coerce;
 exports.disable = disable;
 exports.enable = enable;
 exports.enabled = enabled;
-exports.humanize = __webpack_require__(51);
+exports.humanize = __webpack_require__(52);
 
 /**
  * The currently active debug mode names, and names to skip.
@@ -8410,7 +8441,7 @@ function coerce(val) {
 
 
 /***/ }),
-/* 51 */
+/* 52 */
 /***/ (function(module, exports) {
 
 /**
@@ -8565,7 +8596,7 @@ function plural(ms, n, name) {
 
 
 /***/ }),
-/* 52 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/*global Blob,File*/
@@ -8574,7 +8605,7 @@ function plural(ms, n, name) {
  * Module requirements
  */
 
-var isArray = __webpack_require__(54);
+var isArray = __webpack_require__(55);
 var isBuf = __webpack_require__(20);
 
 /**
@@ -8713,7 +8744,7 @@ exports.removeBlobs = function(data, callback) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 53 */
+/* 54 */
 /***/ (function(module, exports) {
 
 
@@ -8883,7 +8914,7 @@ Emitter.prototype.hasListeners = function(event){
 
 
 /***/ }),
-/* 54 */
+/* 55 */
 /***/ (function(module, exports) {
 
 module.exports = Array.isArray || function (arr) {
@@ -8892,7 +8923,7 @@ module.exports = Array.isArray || function (arr) {
 
 
 /***/ }),
-/* 55 */
+/* 56 */
 /***/ (function(module, exports) {
 
 /*
@@ -9144,7 +9175,7 @@ function updateLink(linkElement, obj) {
 
 
 /***/ }),
-/* 56 */
+/* 57 */
 /***/ (function(module, exports) {
 
 module.exports = toArray
@@ -9163,7 +9194,7 @@ function toArray(list, index) {
 
 
 /***/ }),
-/* 57 */
+/* 58 */
 /***/ (function(module, exports) {
 
 /* WEBPACK VAR INJECTION */(function(__webpack_amd_options__) {/* globals __webpack_amd_options__ */
@@ -9172,7 +9203,7 @@ module.exports = __webpack_amd_options__;
 /* WEBPACK VAR INJECTION */}.call(exports, {}))
 
 /***/ }),
-/* 58 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module, global) {var __WEBPACK_AMD_DEFINE_RESULT__;/*! https://mths.be/wtf8 v1.0.0 by @mathias */
@@ -9412,15 +9443,15 @@ module.exports = __webpack_amd_options__;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(21)(module), __webpack_require__(0)))
 
 /***/ }),
-/* 59 */
+/* 60 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__style_scss__ = __webpack_require__(24);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__style_scss__ = __webpack_require__(25);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__style_scss___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__style_scss__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__game_js__ = __webpack_require__(25);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_socket_io_client__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__game_js__ = __webpack_require__(26);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_socket_io_client__ = __webpack_require__(24);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_socket_io_client___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_socket_io_client__);
 
 
@@ -9431,9 +9462,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   const wrapper = document.getElementById('game-wrapper');
   const game = new __WEBPACK_IMPORTED_MODULE_1__game_js__["a" /* default */](socket,wrapper);
 
+  const tanFOV = Math.tan( ( ( Math.PI / 180 ) * game.camera.fov / 2 ) );
+  const clientHeight = 450;
+
+  game.camera.fov = ( 360 / Math.PI ) * Math.atan( tanFOV * ( wrapper.clientHeight / clientHeight ) );
+  game.camera.updateProjectionMatrix();
+
   window.addEventListener('resize',function(){
       let height = wrapper.clientHeight;
       let width = wrapper.clientWidth;
+
+      game.camera.fov = ( 360 / Math.PI ) * Math.atan( tanFOV * ( height / clientHeight ) );
+
       game.renderer.setSize(width,height);
       game.camera.aspect = width/height;
       game.camera.updateProjectionMatrix();
@@ -9445,32 +9485,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /***/ }),
-/* 60 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-const WORLD_SIZE = 100;
-/* harmony export (immutable) */ __webpack_exports__["a"] = WORLD_SIZE;
-
-const TANK_SIZE_X = 7;
-/* harmony export (immutable) */ __webpack_exports__["b"] = TANK_SIZE_X;
-
-const TANK_SIZE_Z = 5;
-/* harmony export (immutable) */ __webpack_exports__["d"] = TANK_SIZE_Z;
-
-const BULLET_RADIUS = 1;
-/* harmony export (immutable) */ __webpack_exports__["c"] = BULLET_RADIUS;
-
-
-
-/***/ }),
 /* 61 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__constants_js__ = __webpack_require__(23);
+
+
 class Tank{
 
-  constructor(scene){
+  constructor(scene,color){
     this.scene  = scene;
     this.bullets = [];
     this.body = new THREE.Group();
@@ -9479,14 +9503,14 @@ class Tank{
 
     //top body
     geometry = new THREE.BoxGeometry(3.5,1.5,3);
-    material = new THREE.MeshPhongMaterial({color:'blue'});
+    material = new THREE.MeshPhongMaterial({color:color.top});
     mesh = new THREE.Mesh(geometry, material);
     mesh.position.y = 1.5;
     this.body.add(mesh);
 
     //cannon
     geometry = new THREE.CylinderGeometry(.25,.25,5,20);
-    material = new THREE.MeshBasicMaterial( {color: 0xffff00} );
+    material = new THREE.MeshBasicMaterial({color:color.cannon});
     mesh = new THREE.Mesh( geometry, material );
     mesh.rotation.z = 100*( Math.PI/180);
     mesh.position.y = 1.5;
@@ -9495,13 +9519,13 @@ class Tank{
 
     //bottom body
     geometry = new THREE.BoxGeometry(7,2,5);
-    material = new THREE.MeshPhongMaterial({color:0xf25346});
+    material = new THREE.MeshPhongMaterial({color:color.bottom});
     mesh = new THREE.Mesh(geometry, material);
     this.body.add(mesh);
 
     //left tire
     geometry = new THREE.CylinderGeometry( 1, 1, 6, 20);
-    material = new THREE.MeshBasicMaterial( {color: 0xffff00} );
+    material = new THREE.MeshBasicMaterial({color:color.tires});
     mesh = new THREE.Mesh( geometry, material );
     mesh.rotation.z = 90*( Math.PI/180);
     mesh.position.z = -2.5;
@@ -9510,7 +9534,7 @@ class Tank{
 
     //right tire
     geometry = new THREE.CylinderGeometry( 1, 1, 6, 20);
-    material = new THREE.MeshBasicMaterial( {color: 0xffff00} );
+    material = new THREE.MeshBasicMaterial({color:color.tires});
     mesh = new THREE.Mesh( geometry, material );
     mesh.rotation.z = 90*( Math.PI/180);
     mesh.position.z = 2.5;
@@ -9562,8 +9586,8 @@ class Tank{
     for(let i = 0;i<this.bullets.length;i++){
         this.scene.remove(this.bullets[i]);
     }
-    let positionX = Math.floor(Math.random() * 50) - 25;
-    let positionZ = Math.floor(Math.random() * 50) - 25;
+    let positionX = Math.floor(Math.random() * __WEBPACK_IMPORTED_MODULE_0__constants_js__["c" /* WORLD_SIZE */]*2) - __WEBPACK_IMPORTED_MODULE_0__constants_js__["c" /* WORLD_SIZE */];
+    let positionZ = Math.floor(Math.random() * __WEBPACK_IMPORTED_MODULE_0__constants_js__["c" /* WORLD_SIZE */]*2) - __WEBPACK_IMPORTED_MODULE_0__constants_js__["c" /* WORLD_SIZE */];
     this.body.position.x = positionX;
     this.body.position.z = positionZ;
   }
