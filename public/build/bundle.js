@@ -9427,7 +9427,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 (function(){
-  const socket = __WEBPACK_IMPORTED_MODULE_2_socket_io_client___default.a.connect('https://tank3d.herokuapp.com:80');
+  const socket = __WEBPACK_IMPORTED_MODULE_2_socket_io_client___default()();
   const wrapper = document.getElementById('game-wrapper');
   const game = new __WEBPACK_IMPORTED_MODULE_1__game_js__["a" /* default */](socket,wrapper);
 

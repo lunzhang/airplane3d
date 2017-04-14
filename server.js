@@ -3,16 +3,17 @@ var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 var path = require('path');
-
+var port = process.env.PORT || 80;
 var FRAME_RATE = 1000.0 / 60.0;
 
 app.use('/public', express.static(__dirname + '/public'));
+app.set('port', (port));
 
 app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname+'/public/index.html'));
 });
 
-server.listen(80);
+server.listen(port);
 
 var tanks = {};
 
