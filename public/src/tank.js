@@ -7,6 +7,7 @@ export default class Tank{
     this.scene  = scene;
     this.bullets = [];
     this.body = new THREE.Group();
+    this.reloading = false;
 
     let geometry, material, mesh;
 
@@ -74,21 +75,28 @@ export default class Tank{
     //update of bullets
     for(let i = 0;i<this.bullets.length;i++){
         let bullet = this.bullets[i];
-        bullet.translateX(5);
+        bullet.translateX(3);
     }
   }
 
   fire(){
-    let geometry = new THREE.SphereGeometry( 1, 32, 32 );
-    let material = new THREE.MeshBasicMaterial( {color: 0x23190f} );
-    let bullet = new THREE.Mesh( geometry, material );
+    if(this.reloading === false){
+      this.reloading = true;
+      let geometry = new THREE.SphereGeometry( 1, 32, 32 );
+      let material = new THREE.MeshBasicMaterial( {color: 0x23190f} );
+      let bullet = new THREE.Mesh( geometry, material );
 
-    bullet.position.y = 3;
-    bullet.position.copy(this.body.position);
-    bullet.rotation.copy(this.body.rotation);
+      bullet.position.y = 3;
+      bullet.position.copy(this.body.position);
+      bullet.rotation.copy(this.body.rotation);
 
-    this.bullets.push(bullet);
-    this.scene.add(bullet);
+      this.bullets.push(bullet);
+      this.scene.add(bullet);
+
+      setTimeout(()=>{
+          this.reloading = false;
+      },500);
+    }
   }
 
   restart(){
