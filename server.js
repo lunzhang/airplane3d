@@ -5,8 +5,8 @@ var io = require('socket.io')(server);
 var path = require('path');
 var World = require('./world.js');
 var port = process.env.PORT || 80;
-var FRAME_RATE = 1000 / 60;
-var world = new World();
+var FRAME_RATE = 1000/60;
+var world = new World(io);
 var tanks = world.tanks;
 app.use('/public', express.static(__dirname + '/public'));
 
@@ -34,9 +34,20 @@ io.on('connection', function(socket){
       let hit = io.sockets.connected[id];
       let tank = tanks[socket.id];
       if(hit != undefined){
-        io.sockets.emit('msg',tank.name + ' has hit ' + tanks[id].name);
+        io.emit('msg',tank.name + ' has hit ' + tanks[id].name);
         hit.emit('hit');
       }
+      if(id < 5){
+        io.emit('msg',tank.name + ' has hit ' + tanks[id].name);
+        world.hit(id);
+      }
+  });
+
+  //bot hits a user
+  socket.on('bothit',function(id){
+      var bot = tanks[id];
+      io.emit('msg',bot.name + 'has hit ' + tanks[socket.id].name);
+      socket.emit('hit');
   });
 
   //user fires a missle
@@ -53,5 +64,5 @@ io.on('connection', function(socket){
 //constant update of tanks
 setInterval(function(){
   world.update();
-  io.sockets.emit('update',tanks);
+  io.emit('update',tanks);
 },FRAME_RATE);

@@ -176,38 +176,39 @@ export default class Game {
         if(prop == this.socket.id) continue;
         let tank = this.tanks[prop];
 
-        let circleDistX = Math.abs(bullet.position.x - tank.body.position.x);
-        let circleDistZ =Math.abs(bullet.position.z - tank.body.position.z);
-
-        //false
-        if(circleDistX > (CONSTANTS.TANK_SIZE_X/2 + CONSTANTS.BULLET_RADIUS) ||
-        circleDistZ > (CONSTANTS.TANK_SIZE_Z/2 + CONSTANTS.BULLET_RADIUS)) {
-          continue;
-        }
-
-        let cornerDistance_sq = Math.pow(circleDistX - CONSTANTS.TANK_SIZE_X/2,2) +
-        Math.pow(circleDistZ - CONSTANTS.TANK_SIZE_Z/2,2);
-
-        //true
-        if(cornerDistance_sq <= (CONSTANTS.BULLET_RADIUS) || circleDistX <= (CONSTANTS.TANK_SIZE_X/2) ||
-        circleDistZ <= (CONSTANTS.TANK_SIZE_Z/2)){
+        if(this.collision(bullet,tank.body)){
           this.scene.remove(bullet);
           this.tank.bullets.splice(i,1);
           this.socket.emit('hit',prop);
           break;
         }
+
       }
     }
 
     //check other tanks bullets collisions
-    for(let j=0;j<this.tanks.length;j++){
-      let tank = this.tanks[j];
+    for(var prop in this.tanks){
+      let tank = this.tanks[prop];
       //out of bounds
-      for(let i = tank.bullets.length-1; i>=0; i--){
-        let bullet = tank.bullets[i];
-        if(bullet.position.x > CONSTANTS.WORLD_SIZE || bullet.position.x < -CONSTANTS.WORLD_SIZE || bbullet.position.z > CONSTANTS.WORLD_SIZE || bullet.position.z < -CONSTANTS.WORLD_SIZE){
+      for(let j = tank.bullets.length-1; j>=0; j--){
+        let bullet = tank.bullets[j];
+
+        if(bullet.position.x > CONSTANTS.WORLD_SIZE || bullet.position.x < -CONSTANTS.WORLD_SIZE
+          || bullet.position.z > CONSTANTS.WORLD_SIZE || bullet.position.z < -CONSTANTS.WORLD_SIZE){
           this.scene.remove(bullet);
-          tank.bullets.splice(i,1);
+          tank.bullets.splice(j,1);
+          continue;
+        }
+
+        //check bots bullets with player tank
+        if(prop < 5){
+          if(this.collision(bullet,this.tank.body)){
+            console.log(prop);
+            this.scene.remove(bullet);
+            tank.bullets.splice(j,1);
+            this.socket.emit('bothit',prop);
+            break;
+          }
         }
       }
     }
@@ -225,6 +226,27 @@ export default class Game {
       this.tank.body.position.z = -CONSTANTS.WORLD_SIZE;
     }
 
+  }
+
+  collision(a,b){
+    let circleDistX = Math.abs(a.position.x - b.position.x);
+    let circleDistZ =Math.abs(a.position.z - b.position.z);
+
+    //false
+    if(circleDistX > (CONSTANTS.TANK_SIZE_X/2 + CONSTANTS.BULLET_RADIUS) ||
+    circleDistZ > (CONSTANTS.TANK_SIZE_Z/2 + CONSTANTS.BULLET_RADIUS)) {
+      return false;
+    }
+
+    let cornerDistance_sq = Math.pow(circleDistX - CONSTANTS.TANK_SIZE_X/2,2) +
+    Math.pow(circleDistZ - CONSTANTS.TANK_SIZE_Z/2,2);
+
+    //true
+    if(cornerDistance_sq <= (CONSTANTS.BULLET_RADIUS) || circleDistX <= (CONSTANTS.TANK_SIZE_X/2) ||
+    circleDistZ <= (CONSTANTS.TANK_SIZE_Z/2)){
+      return true;
+    }
+    return false;
   }
 
   animate(){

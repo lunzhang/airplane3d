@@ -1,6 +1,7 @@
 var synaptic = require('synaptic');
 
-var World = function(){
+var World = function(io){
+  this.io = io;
   this.learningRate = .1;
   this.bots = 3;
   this.tanks = {
@@ -8,6 +9,7 @@ var World = function(){
       name:"bot 1",
       action:[0,0],
       network:new synaptic.Architect.Perceptron(2,10,2),
+      reloading:false,
       rotation:{
           _order:"XYZ",
           _x:0,
@@ -24,6 +26,7 @@ var World = function(){
       name:"bot 2",
       action:[0,0],
       network:new synaptic.Architect.Perceptron(2,10,2),
+      reloading:false,
       rotation:{
           _order:"XYZ",
           _x:0,
@@ -40,6 +43,7 @@ var World = function(){
       name:"bot 3",
       action:[0,0],
       network:new synaptic.Architect.Perceptron(2,10,2),
+      reloading:false,
       rotation:{
           _order:"XYZ",
           _x:0,
@@ -87,6 +91,17 @@ World.prototype = {
             angleRad = angleRad < 0 ? Math.PI * 2 + angleRad : angleRad;
             var diff = Math.abs(angleRad - bot.rotation._y);
             var rotationAngle = diff < .1 ? diff : .1;
+
+            //fire when aimed close to tank
+            if(diff < .15 && bot.reloading === false){
+                this.io.emit('fire',i);
+                bot.reloading = true;
+                (function(bot){
+                  setTimeout(function(){
+                      bot.reloading = false;
+                  },3000);
+                })(bot);
+            }
 
             //find shortest distance between the two angles
             if( ((diff <= (Math.PI*2) - diff) && (angleRad < bot.rotation._y)) ||
@@ -141,6 +156,11 @@ World.prototype = {
           }
 
       }
+    },
+    hit:function(id){
+      var tank = this.tanks[id];
+      tank.position.x = Math.random() * 300 -150;
+      tank.position.z = Math.random() * 300 -150;
     }
 };
 
