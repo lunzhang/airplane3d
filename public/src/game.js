@@ -26,14 +26,15 @@ export default class Game {
       for(let prop in tanks){
         if(prop === this.socket.id) continue;
         let tank = this.tanks[prop];
-        //update existing tank
         if(tank){
+          //update tank
           tank.body.position.copy(tanks[prop].position);
           tank.body.rotation.copy(tanks[prop].rotation);
         }else{
           //create new tank
           let newT = new Tank(this.scene,CONSTANTS.TANKS_COLORS,tanks[prop].name);
           newT.body.position.copy(tanks[prop].position);
+          if(prop.length < 2) newT.moveForward = true;
           newT.body.rotation.copy(tanks[prop].rotation);
           this.tanks[prop] = newT;
           this.appendMsg(tanks[prop].name + ' has entered');

@@ -3,9 +3,11 @@ var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 var path = require('path');
+var World = require('./world.js');
 var port = process.env.PORT || 80;
-var FRAME_RATE = 1000.0 / 60.0;
-
+var FRAME_RATE = 1000 / 60;
+var world = new World();
+var tanks = world.tanks;
 app.use('/public', express.static(__dirname + '/public'));
 
 app.get('/', function(req, res) {
@@ -14,8 +16,6 @@ app.get('/', function(req, res) {
 
 app.set('port', (port));
 server.listen(port);
-
-var tanks = {};
 
 io.on('connection', function(socket){
 
@@ -52,5 +52,6 @@ io.on('connection', function(socket){
 
 //constant update of tanks
 setInterval(function(){
+  world.update();
   io.sockets.emit('update',tanks);
 },FRAME_RATE);
