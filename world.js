@@ -84,6 +84,7 @@ World.prototype = {
           });
           var target = this.targetTank(bot);
           if(target != undefined){
+            //turn left, turn right,
             var action = [0,0];
             //angle between two positions
             var angleRad = Math.atan2(bot.position.z - target.position.z,target.position.x - bot.position.x);
@@ -103,17 +104,24 @@ World.prototype = {
                 })(bot);
             }
 
-            //find shortest distance between the two angles
-            if( ((diff <= (Math.PI*2) - diff) && (angleRad < bot.rotation._y)) ||
-            ((diff > (Math.PI*2) - diff) && (angleRad > bot.rotation._y)) ){
+            if(output[0] === 1){
+                //turn left
+                bot.rotation._y += rotationAngle;
+            }
+            if(output[1] === 1){
                 //turn right
                 bot.rotation._y -= rotationAngle;
                 //switch to 2PI if less than 0
                 if(bot.rotation._y < 0) bot.rotation._y = (Math.PI * 2) + bot.rotation._y;
+            }
+
+            //find shortest distance between the two angles
+            if( ((diff <= (Math.PI*2) - diff) && (angleRad < bot.rotation._y)) ||
+            ((diff > (Math.PI*2) - diff) && (angleRad > bot.rotation._y))){
+                action[1] = 1;
             }else if( ((diff <= (Math.PI*2) - diff) && (angleRad > bot.rotation._y) ) ||
             ((diff > (Math.PI*2) - diff) && (angleRad < bot.rotation._y)) ){
-                //turn left
-                bot.rotation._y += rotationAngle;
+                action[0] = 1;
             }
 
             //rotation in 0 to 2PI range
