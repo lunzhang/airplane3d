@@ -7,8 +7,7 @@ var World = function(io){
   this.tanks = {
     1:{
       name:"bot 1",
-      action:[0,0],
-      network:new synaptic.Architect.Perceptron(2,10,2),
+      network:new synaptic.Architect.Perceptron(3,12,3),
       reloading:false,
       rotation:{
           _order:"XYZ",
@@ -24,8 +23,7 @@ var World = function(io){
     },
     2:{
       name:"bot 2",
-      action:[0,0],
-      network:new synaptic.Architect.Perceptron(2,10,2),
+      network:new synaptic.Architect.Perceptron(3,12,3),
       reloading:false,
       rotation:{
           _order:"XYZ",
@@ -41,8 +39,7 @@ var World = function(io){
     },
     3:{
       name:"bot 3",
-      action:[0,0],
-      network:new synaptic.Architect.Perceptron(2,10,2),
+      network:new synaptic.Architect.Perceptron(3,12,3),
       reloading:false,
       rotation:{
           _order:"XYZ",
@@ -78,31 +75,20 @@ World.prototype = {
     update:function(){
       for(var i = 1;i<=this.bots;i++){
           var bot = this.tanks[i];
-          var output = bot.network.activate(bot.action);
+          var output = bot.network.activate([bot.position.x,bot.position.z,bot.rotation._y]);
           output.forEach(function(o,i){
               output[i] = Math.round(o);
           });
           var target = this.targetTank(bot);
           if(target != undefined){
             //turn left, turn right,
-            var action = [0,0];
+            var action = [0,0,0];
             //angle between two positions
             var angleRad = Math.atan2(bot.position.z - target.position.z,target.position.x - bot.position.x);
             //convert angle to 2PI format
             angleRad = angleRad < 0 ? Math.PI * 2 + angleRad : angleRad;
             var diff = Math.abs(angleRad - bot.rotation._y);
             var rotationAngle = diff < .1 ? diff : .1;
-
-            //fire when aimed close to tank
-            if(diff < .15 && bot.reloading === false){
-                this.io.emit('fire',i);
-                bot.reloading = true;
-                (function(bot){
-                  setTimeout(function(){
-                      bot.reloading = false;
-                  },3000);
-                })(bot);
-            }
 
             if(output[0] === 1){
                 //turn left
@@ -114,6 +100,16 @@ World.prototype = {
                 //switch to 2PI if less than 0
                 if(bot.rotation._y < 0) bot.rotation._y = (Math.PI * 2) + bot.rotation._y;
             }
+            if(output[2] === 1 && bot.reloading === false){
+              //fire bullet
+              this.io.emit('fire',i);
+              bot.reloading = true;
+              (function(bot){
+                setTimeout(function(){
+                    bot.reloading = false;
+                },3000);
+              })(bot);
+            }
 
             //find shortest distance between the two angles
             if( ((diff <= (Math.PI*2) - diff) && (angleRad < bot.rotation._y)) ||
@@ -122,6 +118,14 @@ World.prototype = {
             }else if( ((diff <= (Math.PI*2) - diff) && (angleRad > bot.rotation._y) ) ||
             ((diff > (Math.PI*2) - diff) && (angleRad < bot.rotation._y)) ){
                 action[0] = 1;
+            }
+
+            var distX = bot.position.x - target.position.x;
+            var distZ = bot.position.z - target.position.z;
+            var dist = Math.sqrt(distX*distX + distZ*distZ);
+            //fire when aimed or close to tank
+            if(diff < .2 || dist < 10){
+                action[2] = 1;
             }
 
             //rotation in 0 to 2PI range
