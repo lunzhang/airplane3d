@@ -3,7 +3,7 @@ import Game from './game.js';
 import io from 'socket.io-client';
 
 (function(){
-  const socket = io.connect('http://tank3d.herokuapp.com/');
+  const socket = io.connect('https://tank3d.herokuapp.com/');
   const wrapper = document.getElementById('game-wrapper');
   const nameWrapper = document.getElementById('name-wrapper');
   const startBtn = document.getElementById('startBtn');

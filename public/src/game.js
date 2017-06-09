@@ -203,7 +203,6 @@ export default class Game {
         //check bots bullets with player tank
         if(prop < 5){
           if(this.collision(bullet,this.tank.body)){
-            console.log(prop);
             this.scene.remove(bullet);
             tank.bullets.splice(j,1);
             this.socket.emit('bothit',prop);

@@ -3564,14 +3564,15 @@ class Game {
       for(let prop in tanks){
         if(prop === this.socket.id) continue;
         let tank = this.tanks[prop];
-        //update existing tank
         if(tank){
+          //update tank
           tank.body.position.copy(tanks[prop].position);
           tank.body.rotation.copy(tanks[prop].rotation);
         }else{
           //create new tank
           let newT = new __WEBPACK_IMPORTED_MODULE_0__tank_js__["a" /* default */](this.scene,__WEBPACK_IMPORTED_MODULE_1__constants_js__["a" /* TANKS_COLORS */],tanks[prop].name);
           newT.body.position.copy(tanks[prop].position);
+          if(prop.length < 2) newT.moveForward = true;
           newT.body.rotation.copy(tanks[prop].rotation);
           this.tanks[prop] = newT;
           this.appendMsg(tanks[prop].name + ' has entered');
@@ -3713,38 +3714,38 @@ class Game {
         if(prop == this.socket.id) continue;
         let tank = this.tanks[prop];
 
-        let circleDistX = Math.abs(bullet.position.x - tank.body.position.x);
-        let circleDistZ =Math.abs(bullet.position.z - tank.body.position.z);
-
-        //false
-        if(circleDistX > (__WEBPACK_IMPORTED_MODULE_1__constants_js__["d" /* TANK_SIZE_X */]/2 + __WEBPACK_IMPORTED_MODULE_1__constants_js__["e" /* BULLET_RADIUS */]) ||
-        circleDistZ > (__WEBPACK_IMPORTED_MODULE_1__constants_js__["f" /* TANK_SIZE_Z */]/2 + __WEBPACK_IMPORTED_MODULE_1__constants_js__["e" /* BULLET_RADIUS */])) {
-          continue;
-        }
-
-        let cornerDistance_sq = Math.pow(circleDistX - __WEBPACK_IMPORTED_MODULE_1__constants_js__["d" /* TANK_SIZE_X */]/2,2) +
-        Math.pow(circleDistZ - __WEBPACK_IMPORTED_MODULE_1__constants_js__["f" /* TANK_SIZE_Z */]/2,2);
-
-        //true
-        if(cornerDistance_sq <= (__WEBPACK_IMPORTED_MODULE_1__constants_js__["e" /* BULLET_RADIUS */]) || circleDistX <= (__WEBPACK_IMPORTED_MODULE_1__constants_js__["d" /* TANK_SIZE_X */]/2) ||
-        circleDistZ <= (__WEBPACK_IMPORTED_MODULE_1__constants_js__["f" /* TANK_SIZE_Z */]/2)){
+        if(this.collision(bullet,tank.body)){
           this.scene.remove(bullet);
           this.tank.bullets.splice(i,1);
           this.socket.emit('hit',prop);
           break;
         }
+
       }
     }
 
     //check other tanks bullets collisions
-    for(let j=0;j<this.tanks.length;j++){
-      let tank = this.tanks[j];
+    for(var prop in this.tanks){
+      let tank = this.tanks[prop];
       //out of bounds
-      for(let i = tank.bullets.length-1; i>=0; i--){
-        let bullet = tank.bullets[i];
-        if(bullet.position.x > __WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */] || bullet.position.x < -__WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */] || bbullet.position.z > __WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */] || bullet.position.z < -__WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */]){
+      for(let j = tank.bullets.length-1; j>=0; j--){
+        let bullet = tank.bullets[j];
+
+        if(bullet.position.x > __WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */] || bullet.position.x < -__WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */]
+          || bullet.position.z > __WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */] || bullet.position.z < -__WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */]){
           this.scene.remove(bullet);
-          tank.bullets.splice(i,1);
+          tank.bullets.splice(j,1);
+          continue;
+        }
+
+        //check bots bullets with player tank
+        if(prop < 5){
+          if(this.collision(bullet,this.tank.body)){
+            this.scene.remove(bullet);
+            tank.bullets.splice(j,1);
+            this.socket.emit('bothit',prop);
+            break;
+          }
         }
       }
     }
@@ -3762,6 +3763,27 @@ class Game {
       this.tank.body.position.z = -__WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */];
     }
 
+  }
+
+  collision(a,b){
+    let circleDistX = Math.abs(a.position.x - b.position.x);
+    let circleDistZ =Math.abs(a.position.z - b.position.z);
+
+    //false
+    if(circleDistX > (__WEBPACK_IMPORTED_MODULE_1__constants_js__["d" /* TANK_SIZE_X */]/2 + __WEBPACK_IMPORTED_MODULE_1__constants_js__["e" /* BULLET_RADIUS */]) ||
+    circleDistZ > (__WEBPACK_IMPORTED_MODULE_1__constants_js__["f" /* TANK_SIZE_Z */]/2 + __WEBPACK_IMPORTED_MODULE_1__constants_js__["e" /* BULLET_RADIUS */])) {
+      return false;
+    }
+
+    let cornerDistance_sq = Math.pow(circleDistX - __WEBPACK_IMPORTED_MODULE_1__constants_js__["d" /* TANK_SIZE_X */]/2,2) +
+    Math.pow(circleDistZ - __WEBPACK_IMPORTED_MODULE_1__constants_js__["f" /* TANK_SIZE_Z */]/2,2);
+
+    //true
+    if(cornerDistance_sq <= (__WEBPACK_IMPORTED_MODULE_1__constants_js__["e" /* BULLET_RADIUS */]) || circleDistX <= (__WEBPACK_IMPORTED_MODULE_1__constants_js__["d" /* TANK_SIZE_X */]/2) ||
+    circleDistZ <= (__WEBPACK_IMPORTED_MODULE_1__constants_js__["f" /* TANK_SIZE_Z */]/2)){
+      return true;
+    }
+    return false;
   }
 
   animate(){
@@ -8924,7 +8946,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 (function(){
-  const socket = __WEBPACK_IMPORTED_MODULE_2_socket_io_client___default.a.connect('http://tank3d.herokuapp.com/');
+  const socket = __WEBPACK_IMPORTED_MODULE_2_socket_io_client___default.a.connect('https://tank3d.herokuapp.com/');
   const wrapper = document.getElementById('game-wrapper');
   const nameWrapper = document.getElementById('name-wrapper');
   const startBtn = document.getElementById('startBtn');
