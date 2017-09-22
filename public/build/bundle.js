@@ -3371,18 +3371,18 @@ const BULLET_RADIUS = 1;
 /* harmony export (immutable) */ __webpack_exports__["e"] = BULLET_RADIUS;
 
 const TANK_COLORS = {
-  top:0xf25346,
-	bottom:0xF5986E,
-	cannon:0x59332e,
-	tires:0x68c3c0
+  top: 0xf25346,
+  bottom: 0xF5986E,
+  cannon: 0x59332e,
+  tires: 0x68c3c0,
 };
 /* harmony export (immutable) */ __webpack_exports__["b"] = TANK_COLORS;
 
 const TANKS_COLORS = {
-  top:0xF5986E,
-	bottom:0x59332e,
-	cannon:0x23190f,
-	tires:0x23190f
+  top: 0xF5986E,
+  bottom: 0x59332e,
+  cannon: 0x23190f,
+  tires: 0x23190f,
 };
 /* harmony export (immutable) */ __webpack_exports__["a"] = TANKS_COLORS;
 
@@ -3540,8 +3540,7 @@ if(false) {
 
 
 class Game {
-
-  constructor(socket,wrapper){
+  constructor(socket, wrapper) {
     this.socket = socket;
     this.wrapper = wrapper;
     this.tanks = {};
@@ -3549,91 +3548,90 @@ class Game {
     this.initGame();
   }
 
-  start(name){
+  start(name) {
     this.tank.name = name;
     this.initListeners();
     this.initSocket();
-    this.socket.emit('enter',this.tank.toObject());
+    this.socket.emit('enter', this.tank.toObject());
     this.animate();
   }
 
-  initSocket(){
-
-    //constant update of other tanks
-    this.socket.on('update',(tanks)=>{
-      for(let prop in tanks){
-        if(prop === this.socket.id) continue;
-        let tank = this.tanks[prop];
-        if(tank){
-          //update tank
-          tank.body.position.copy(tanks[prop].position);
-          tank.body.rotation.copy(tanks[prop].rotation);
-        }else{
-          //create new tank
-          let newT = new __WEBPACK_IMPORTED_MODULE_0__tank_js__["a" /* default */](this.scene,__WEBPACK_IMPORTED_MODULE_1__constants_js__["a" /* TANKS_COLORS */],tanks[prop].name);
-          newT.body.position.copy(tanks[prop].position);
-          if(prop.length < 2) newT.moveForward = true;
-          newT.body.rotation.copy(tanks[prop].rotation);
-          this.tanks[prop] = newT;
-          this.appendMsg(tanks[prop].name + ' has entered');
+  initSocket() {
+    // constant update of other tanks
+    this.socket.on('update', (tanks) => {
+      Object.keys(tanks).forEach((prop) => {
+        if (prop !== this.socket.id) {
+          const tank = this.tanks[prop];
+          if (tank) {
+            // update tank
+            tank.body.position.copy(tanks[prop].position);
+            tank.body.rotation.copy(tanks[prop].rotation);
+          } else {
+            // create new tank
+            const newT = new __WEBPACK_IMPORTED_MODULE_0__tank_js__["a" /* default */](this.scene, __WEBPACK_IMPORTED_MODULE_1__constants_js__["a" /* TANKS_COLORS */], tanks[prop].name);
+            newT.body.position.copy(tanks[prop].position);
+            if (prop.length < 2) newT.moveForward = true;
+            newT.body.rotation.copy(tanks[prop].rotation);
+            this.tanks[prop] = newT;
+            this.appendMsg(`${tanks[prop].name} has entered`);
+          }
         }
-      }
+      });
 
-      //remove non existing tanks
-      for(let prop in this.tanks){
-        let tank = tanks[prop];
-        if(!tank){
-          this.appendMsg(this.tanks[prop].name + ' has left');
+      // remove non existing tanks
+      Object.keys(this.tanks).forEach((prop) => {
+        const tank = tanks[prop];
+        if (!tank) {
+          this.appendMsg(`${this.tanks[prop].name} has left`);
           this.tanks[prop].destroy();
           delete this.tanks[prop];
         }
-      }
+      });
     });
 
-    this.socket.on('hit',()=>{
+    this.socket.on('hit', () => {
       this.tank.restart();
     });
 
-    this.socket.on('msg',(msg)=>{
+    this.socket.on('msg', (msg) => {
       this.appendMsg(msg);
     });
 
-    this.socket.on('fire',(id)=>{
-      let tank = this.tanks[id];
+    this.socket.on('fire', (id) => {
+      const tank = this.tanks[id];
       tank.fire();
     });
-
   }
 
-  appendMsg(msg){
-      let newMsg = document.createElement('div');
-      newMsg.className = 'msg';
-      newMsg.textContent = msg;
-      this.display.appendChild(newMsg);
-      this.display.scrollTop = this.display.scrollHeight;
+  appendMsg(msg) {
+    const newMsg = document.createElement('div');
+    newMsg.className = 'msg';
+    newMsg.textContent = msg;
+    this.display.appendChild(newMsg);
+    this.display.scrollTop = this.display.scrollHeight;
   }
 
-  initGame(){
+  initGame() {
     this.scene = new THREE.Scene();
-    this.camera = new THREE.PerspectiveCamera( 45, this.wrapper.clientWidth / this.wrapper.clientHeight, 1, 2000 );
+    this.camera = new THREE.PerspectiveCamera(45, this.wrapper.clientWidth / this.wrapper.clientHeight, 1, 2000);
     this.renderer = new THREE.WebGLRenderer();
 
     this.camera.position.y = 100;
 
-    this.tank = new __WEBPACK_IMPORTED_MODULE_0__tank_js__["a" /* default */](this.scene,__WEBPACK_IMPORTED_MODULE_1__constants_js__["b" /* TANK_COLORS */],this.name);
+    this.tank = new __WEBPACK_IMPORTED_MODULE_0__tank_js__["a" /* default */](this.scene, __WEBPACK_IMPORTED_MODULE_1__constants_js__["b" /* TANK_COLORS */], this.name);
 
-    let positionX = Math.floor(Math.random() * __WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */]*2) - __WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */];
-    let positionZ = Math.floor(Math.random() * __WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */]*2) - __WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */];
+    const positionX = Math.floor(Math.random() * __WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */] * 2) - __WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */];
+    const positionZ = Math.floor(Math.random() * __WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */] * 2) - __WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */];
 
     this.tank.body.position.y = 1.5;
     this.tank.body.position.x = positionX;
     this.tank.body.position.z = positionZ;
 
     // A hemisphere light is a gradient colored light;
-    let hemisphereLight = new THREE.HemisphereLight(0xaaaaaa,0x000000, .9)
+    const hemisphereLight = new THREE.HemisphereLight(0xaaaaaa, 0x000000, 0.9);
 
     // A directional light shines from a specific direction.
-    let shadowLight = new THREE.DirectionalLight(0xffffff, .9);
+    const shadowLight = new THREE.DirectionalLight(0xffffff, 0.9);
 
     // Set the direction of the light
     shadowLight.position.set(150, 350, 350);
@@ -3641,11 +3639,11 @@ class Game {
     this.scene.add(hemisphereLight);
     this.scene.add(shadowLight);
 
-    //add ground
-    let geometry = new THREE.PlaneGeometry(__WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */]*2,__WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */]*2);
-    let material = new THREE.MeshBasicMaterial( {color: 'white', side: THREE.DoubleSide} );
-    let ground = new THREE.Mesh( geometry, material );
-    ground.rotation.x = 90*( Math.PI/180);
+    // add ground
+    const geometry = new THREE.PlaneGeometry(__WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */] * 2, __WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */] * 2);
+    const material = new THREE.MeshBasicMaterial({ color: 'white', side: THREE.DoubleSide });
+    const ground = new THREE.Mesh(geometry, material);
+    ground.rotation.x = 90 * (Math.PI / 180);
     this.scene.add(ground);
 
     this.renderer.setPixelRatio(window.devicePixelRatio);
@@ -3653,167 +3651,157 @@ class Game {
     this.wrapper.appendChild(this.renderer.domElement);
   }
 
-  initListeners(){
-
-    window.addEventListener('keydown',(e)=>{
-      switch(e.code){
+  initListeners() {
+    window.addEventListener('keydown', (e) => {
+      switch (e.code) {
         case 'KeyW':
-        this.tank.moveForward = true;
-        break;
+          this.tank.moveForward = true;
+          break;
         case 'KeyS':
-        this.tank.moveBackward = true;
-        break;
+          this.tank.moveBackward = true;
+          break;
         case 'KeyA':
-        this.tank.turnLeft = true;
-        break;
+          this.tank.turnLeft = true;
+          break;
         case 'KeyD':
-        this.tank.turnRight = true;
-        break;
+          this.tank.turnRight = true;
+          break;
       }
     });
 
-    window.addEventListener('keyup',(e)=>{
-      switch(e.code){
+    window.addEventListener('keyup', (e) => {
+      switch (e.code) {
         case 'KeyW':
-        this.tank.moveForward = false;
-        break;
+          this.tank.moveForward = false;
+          break;
         case 'KeyS':
-        this.tank.moveBackward = false;
-        break;
+          this.tank.moveBackward = false;
+          break;
         case 'KeyA':
-        this.tank.turnLeft = false;
-        break;
+          this.tank.turnLeft = false;
+          break;
         case 'KeyD':
-        this.tank.turnRight = false;
-        break;
+          this.tank.turnRight = false;
+          break;
       }
     });
 
-    window.addEventListener('click',(e)=>{
+    window.addEventListener('click', () => {
       this.tank.fire();
       this.socket.emit('fire');
     });
-
   }
 
-  checkCollision(){
+  checkCollision() {
+    // check tank bullets collisions
+    for (let i = this.tank.bullets.length - 1; i >= 0; i--) {
+      const bullet = this.tank.bullets[i];
 
-    //check tank bullets collisions
-    for(let i = this.tank.bullets.length-1; i>=0; i--){
-      let bullet = this.tank.bullets[i];
-
-      //out of bounds
-      if(bullet.position.x > __WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */] || bullet.position.x < -__WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */] || bullet.position.z > __WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */] || bullet.position.z < -__WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */]){
+      // out of bounds
+      if (bullet.position.x > __WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */] || bullet.position.x < -__WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */]
+        || bullet.position.z > __WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */] || bullet.position.z < -__WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */]) {
         this.scene.remove(bullet);
-        this.tank.bullets.splice(i,1);
-        continue;
+        this.tank.bullets.splice(i, 1);
+      } else {
+        // collision with other tanks
+        Object.keys(this.tanks).forEach((prop) => {
+          if (prop !== this.socket.id) {
+            const tank = this.tanks[prop];
+
+            if (this.collision(bullet, tank.body)) {
+              this.scene.remove(bullet);
+              this.tank.bullets.splice(i, 1);
+              this.socket.emit('hit', prop);
+            }
+          }
+        });
       }
+    }
 
-      //collision with other tanks
-      for(let prop in this.tanks){
-        if(prop == this.socket.id) continue;
-        let tank = this.tanks[prop];
+    // check other tanks bullets collisions
+    Object.keys(this.tanks).forEach((prop) => {
+      const tank = this.tanks[prop];
+      // out of bounds
+      for (let j = tank.bullets.length - 1; j >= 0; j--) {
+        const bullet = tank.bullets[j];
 
-        if(this.collision(bullet,tank.body)){
+        if (bullet.position.x > __WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */] || bullet.position.x < -__WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */]
+            || bullet.position.z > __WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */] || bullet.position.z < -__WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */]) {
           this.scene.remove(bullet);
-          this.tank.bullets.splice(i,1);
-          this.socket.emit('hit',prop);
+          tank.bullets.splice(j, 1);
+        } else if (prop < 5 && this.collision(bullet, this.tank.body)) {
+          // check bots bullets with player tank
+          this.scene.remove(bullet);
+          tank.bullets.splice(j, 1);
+          this.socket.emit('bothit', prop);
           break;
         }
-
       }
-    }
+    });
 
-    //check other tanks bullets collisions
-    for(var prop in this.tanks){
-      let tank = this.tanks[prop];
-      //out of bounds
-      for(let j = tank.bullets.length-1; j>=0; j--){
-        let bullet = tank.bullets[j];
-
-        if(bullet.position.x > __WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */] || bullet.position.x < -__WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */]
-          || bullet.position.z > __WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */] || bullet.position.z < -__WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */]){
-          this.scene.remove(bullet);
-          tank.bullets.splice(j,1);
-          continue;
-        }
-
-        //check bots bullets with player tank
-        if(prop < 5){
-          if(this.collision(bullet,this.tank.body)){
-            this.scene.remove(bullet);
-            tank.bullets.splice(j,1);
-            this.socket.emit('bothit',prop);
-            break;
-          }
-        }
-      }
-    }
-
-    //tank bounds
-    if(this.tank.body.position.x > __WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */]){
+    // tank bounds
+    if (this.tank.body.position.x > __WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */]) {
       this.tank.body.position.x = __WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */];
-    }else if(this.tank.body.position.x < -__WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */]){
+    } else if (this.tank.body.position.x < -__WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */]) {
       this.tank.body.position.x = -__WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */];
     }
 
-    if(this.tank.body.position.z > __WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */]){
+    if (this.tank.body.position.z > __WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */]) {
       this.tank.body.position.z = __WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */];
-    }else if(this.tank.body.position.z < -__WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */]){
+    } else if (this.tank.body.position.z < -__WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */]) {
       this.tank.body.position.z = -__WEBPACK_IMPORTED_MODULE_1__constants_js__["c" /* WORLD_SIZE */];
     }
-
   }
 
-  collision(a,b){
-    let circleDistX = Math.abs(a.position.x - b.position.x);
-    let circleDistZ =Math.abs(a.position.z - b.position.z);
+  collision(a, b) {
+    const circleDistX = Math.abs(a.position.x - b.position.x);
+    const circleDistZ = Math.abs(a.position.z - b.position.z);
 
-    //false
-    if(circleDistX > (__WEBPACK_IMPORTED_MODULE_1__constants_js__["d" /* TANK_SIZE_X */]/2 + __WEBPACK_IMPORTED_MODULE_1__constants_js__["e" /* BULLET_RADIUS */]) ||
-    circleDistZ > (__WEBPACK_IMPORTED_MODULE_1__constants_js__["f" /* TANK_SIZE_Z */]/2 + __WEBPACK_IMPORTED_MODULE_1__constants_js__["e" /* BULLET_RADIUS */])) {
+    // false
+    if (circleDistX > (__WEBPACK_IMPORTED_MODULE_1__constants_js__["d" /* TANK_SIZE_X */] / 2 + __WEBPACK_IMPORTED_MODULE_1__constants_js__["e" /* BULLET_RADIUS */]) ||
+        circleDistZ > (__WEBPACK_IMPORTED_MODULE_1__constants_js__["f" /* TANK_SIZE_Z */] / 2 + __WEBPACK_IMPORTED_MODULE_1__constants_js__["e" /* BULLET_RADIUS */])) {
       return false;
     }
 
-    let cornerDistance_sq = Math.pow(circleDistX - __WEBPACK_IMPORTED_MODULE_1__constants_js__["d" /* TANK_SIZE_X */]/2,2) +
-    Math.pow(circleDistZ - __WEBPACK_IMPORTED_MODULE_1__constants_js__["f" /* TANK_SIZE_Z */]/2,2);
+    const cornerDistanceSQ = Math.pow(circleDistX - __WEBPACK_IMPORTED_MODULE_1__constants_js__["d" /* TANK_SIZE_X */] / 2, 2) +
+        Math.pow(circleDistZ - __WEBPACK_IMPORTED_MODULE_1__constants_js__["f" /* TANK_SIZE_Z */] / 2, 2);
 
-    //true
-    if(cornerDistance_sq <= (__WEBPACK_IMPORTED_MODULE_1__constants_js__["e" /* BULLET_RADIUS */]) || circleDistX <= (__WEBPACK_IMPORTED_MODULE_1__constants_js__["d" /* TANK_SIZE_X */]/2) ||
-    circleDistZ <= (__WEBPACK_IMPORTED_MODULE_1__constants_js__["f" /* TANK_SIZE_Z */]/2)){
+    // true
+    if (cornerDistanceSQ <= (__WEBPACK_IMPORTED_MODULE_1__constants_js__["e" /* BULLET_RADIUS */]) || circleDistX <= (__WEBPACK_IMPORTED_MODULE_1__constants_js__["d" /* TANK_SIZE_X */] / 2) ||
+        circleDistZ <= (__WEBPACK_IMPORTED_MODULE_1__constants_js__["f" /* TANK_SIZE_Z */] / 2)) {
       return true;
     }
     return false;
   }
 
-  animate(){
-    requestAnimationFrame(()=>{
+  animate() {
+    requestAnimationFrame(() => {
       this.animate();
     });
 
     this.tank.update();
     this.tank.updateBullets();
 
-    //update tanks bullets
-    for(let prop in this.tanks){
-      if(prop === this.socket.id) continue;
-      let tank = this.tanks[prop];
-      tank.updateBullets();
-    }
+    // update tanks bullets
+    Object.keys(this.tanks).forEach((prop) => {
+      if (prop !== this.socket.id) {
+        const tank = this.tanks[prop];
+        tank.updateBullets();
+      }
+    });
 
     this.checkCollision();
 
-    //camera lock on tank
+    // camera lock on tank
     this.camera.position.z = this.tank.body.position.z + 30;
     this.camera.position.x = this.tank.body.position.x;
     this.camera.lookAt(this.tank.body.position);
 
-    //render scene
-    this.renderer.render(this.scene,this.camera);
+    // render scene
+    this.renderer.render(this.scene, this.camera);
 
-    this.socket.emit('update',this.tank.toObject());
+    this.socket.emit('update', this.tank.toObject());
   }
-
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = Game;
 
@@ -8936,49 +8924,46 @@ module.exports = __webpack_amd_options__;
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__style_scss__ = __webpack_require__(24);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__style_scss___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__style_scss__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_socket_io_client__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_socket_io_client___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_socket_io_client__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__game_js__ = __webpack_require__(25);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_socket_io_client__ = __webpack_require__(23);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_socket_io_client___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_socket_io_client__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__style_scss__ = __webpack_require__(24);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__style_scss___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__style_scss__);
 
 
 
 
-(function(){
-  const socket = __WEBPACK_IMPORTED_MODULE_2_socket_io_client___default.a.connect('https://tank3d.herokuapp.com/');
-  const wrapper = document.getElementById('game-wrapper');
-  const nameWrapper = document.getElementById('name-wrapper');
-  const startBtn = document.getElementById('startBtn');
-  const name = document.getElementById('name');
+const socket = __WEBPACK_IMPORTED_MODULE_0_socket_io_client___default.a.connect('https://tank3d.herokuapp.com/');
+const wrapper = document.getElementById('game-wrapper');
+const nameWrapper = document.getElementById('name-wrapper');
+const startBtn = document.getElementById('startBtn');
+const name = document.getElementById('name');
 
-  const game = new __WEBPACK_IMPORTED_MODULE_1__game_js__["a" /* default */](socket,wrapper);
+const game = new __WEBPACK_IMPORTED_MODULE_1__game_js__["a" /* default */](socket, wrapper);
 
-  const tanFOV = Math.tan( ( ( Math.PI / 180 ) * game.camera.fov / 2 ) );
-  const clientHeight = 450;
+const tanFOV = Math.tan(((Math.PI / 180) * game.camera.fov / 2));
+const clientHeight = 450;
 
-  game.camera.fov = ( 360 / Math.PI ) * Math.atan( tanFOV * ( wrapper.clientHeight / clientHeight ) );
+game.camera.fov = (360 / Math.PI) * Math.atan(tanFOV * (wrapper.clientHeight / clientHeight));
+game.camera.updateProjectionMatrix();
+
+window.addEventListener('resize', () => {
+  const height = wrapper.clientHeight;
+  const width = wrapper.clientWidth;
+
+  game.camera.fov = (360 / Math.PI) * Math.atan(tanFOV * (height / clientHeight));
+
+  game.renderer.setSize(width, height);
+  game.camera.aspect = width / height;
   game.camera.updateProjectionMatrix();
+});
 
-  window.addEventListener('resize',function(){
-      let height = wrapper.clientHeight;
-      let width = wrapper.clientWidth;
-
-      game.camera.fov = ( 360 / Math.PI ) * Math.atan( tanFOV * ( height / clientHeight ) );
-
-      game.renderer.setSize(width,height);
-      game.camera.aspect = width/height;
-      game.camera.updateProjectionMatrix();
-  });
-
-  startBtn.onclick = function(){
-      if(name.value.length > 0){
-          game.start(name.value);
-          nameWrapper.style['display'] = 'none';
-      }
-  };
-
-})();
+startBtn.addEventListener('click', () => {
+  if (name.value.length > 0) {
+    game.start(name.value);
+    nameWrapper.style.display = 'none';
+  }
+});
 
 
 /***/ }),
@@ -8989,91 +8974,91 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__constants_js__ = __webpack_require__(22);
 
 
-class Tank{
-
-  constructor(scene,color,name){
+class Tank {
+  constructor(scene, color, name) {
     this.name = name;
-    this.scene  = scene;
+    this.scene = scene;
     this.bullets = [];
     this.body = new THREE.Group();
     this.reloading = false;
 
-    let geometry, material, mesh;
+    let geometry;
+    let material;
+    let mesh;
 
-    //top body
-    geometry = new THREE.BoxGeometry(3.5,1.5,3);
-    material = new THREE.MeshPhongMaterial({color:color.top});
+    // top body
+    geometry = new THREE.BoxGeometry(3.5, 1.5, 3);
+    material = new THREE.MeshPhongMaterial({ color: color.top });
     mesh = new THREE.Mesh(geometry, material);
     mesh.position.y = 1.5;
     this.body.add(mesh);
 
-    //cannon
-    geometry = new THREE.CylinderGeometry(.25,.25,5,20);
-    material = new THREE.MeshBasicMaterial({color:color.cannon});
-    mesh = new THREE.Mesh( geometry, material );
-    mesh.rotation.z = 100*( Math.PI/180);
+    // cannon
+    geometry = new THREE.CylinderGeometry(0.25, 0.25, 5, 20);
+    material = new THREE.MeshBasicMaterial({ color: color.cannon });
+    mesh = new THREE.Mesh(geometry, material);
+    mesh.rotation.z = 100 * (Math.PI / 180);
     mesh.position.y = 1.5;
     mesh.position.x = 2;
     this.body.add(mesh);
 
-    //bottom body
-    geometry = new THREE.BoxGeometry(7,2,5);
-    material = new THREE.MeshPhongMaterial({color:color.bottom});
+    // bottom body
+    geometry = new THREE.BoxGeometry(7, 2, 5);
+    material = new THREE.MeshPhongMaterial({ color: color.bottom });
     mesh = new THREE.Mesh(geometry, material);
     this.body.add(mesh);
 
-    //left tire
-    geometry = new THREE.CylinderGeometry( 1, 1, 6, 20);
-    material = new THREE.MeshBasicMaterial({color:color.tires});
-    mesh = new THREE.Mesh( geometry, material );
-    mesh.rotation.z = 90*( Math.PI/180);
+    // left tire
+    geometry = new THREE.CylinderGeometry(1, 1, 6, 20);
+    material = new THREE.MeshBasicMaterial({ color: color.tires });
+    mesh = new THREE.Mesh(geometry, material);
+    mesh.rotation.z = 90 * (Math.PI / 180);
     mesh.position.z = -2.5;
-    mesh.position.y = -.5;
+    mesh.position.y = -0.5;
     this.body.add(mesh);
 
-    //right tire
-    geometry = new THREE.CylinderGeometry( 1, 1, 6, 20);
-    material = new THREE.MeshBasicMaterial({color:color.tires});
-    mesh = new THREE.Mesh( geometry, material );
-    mesh.rotation.z = 90*( Math.PI/180);
+    // right tire
+    geometry = new THREE.CylinderGeometry(1, 1, 6, 20);
+    material = new THREE.MeshBasicMaterial({ color: color.tires });
+    mesh = new THREE.Mesh(geometry, material);
+    mesh.rotation.z = 90 * (Math.PI / 180);
     mesh.position.z = 2.5;
-    mesh.position.y = -.5;
+    mesh.position.y = -0.5;
     this.body.add(mesh);
 
     this.scene.add(this.body);
   }
 
-  update(){
-    //movement of tank
-    if(this.moveForward){
+  update() {
+    // movement of tank
+    if (this.moveForward) {
       this.body.translateX(1);
-    }else if(this.moveBackward){
+    } else if (this.moveBackward) {
       this.body.translateX(-1);
     }
 
-    //rotation of tank
-    if(this.turnLeft){
-      this.body.rotateY(.1);
-    }else if(this.turnRight){
-      this.body.rotateY(-.1);
-    }
-
-  }
-
-  updateBullets(){
-    //update of bullets
-    for(let i = 0;i<this.bullets.length;i++){
-        let bullet = this.bullets[i];
-        bullet.translateX(3);
+    // rotation of tank
+    if (this.turnLeft) {
+      this.body.rotateY(0.1);
+    } else if (this.turnRight) {
+      this.body.rotateY(-0.1);
     }
   }
 
-  fire(){
-    if(this.reloading === false){
+  updateBullets() {
+    // update of bullets
+    for (let i = 0; i < this.bullets.length; i++) {
+      const bullet = this.bullets[i];
+      bullet.translateX(3);
+    }
+  }
+
+  fire() {
+    if (this.reloading === false) {
       this.reloading = true;
-      let geometry = new THREE.SphereGeometry( 1, 32, 32 );
-      let material = new THREE.MeshBasicMaterial( {color: 0x23190f} );
-      let bullet = new THREE.Mesh( geometry, material );
+      const geometry = new THREE.SphereGeometry(1, 32, 32);
+      const material = new THREE.MeshBasicMaterial({ color: 0x23190f });
+      const bullet = new THREE.Mesh(geometry, material);
 
       bullet.position.y = 3;
       bullet.position.copy(this.body.position);
@@ -9082,37 +9067,36 @@ class Tank{
       this.bullets.push(bullet);
       this.scene.add(bullet);
 
-      setTimeout(()=>{
-          this.reloading = false;
-      },500);
+      setTimeout(() => {
+        this.reloading = false;
+      }, 500);
     }
   }
 
-  restart(){
-    for(let i = 0;i<this.bullets.length;i++){
-        this.scene.remove(this.bullets[i]);
+  restart() {
+    for (let i = 0; i < this.bullets.length; i++) {
+      this.scene.remove(this.bullets[i]);
     }
-    let positionX = Math.floor(Math.random() * __WEBPACK_IMPORTED_MODULE_0__constants_js__["c" /* WORLD_SIZE */]*2) - __WEBPACK_IMPORTED_MODULE_0__constants_js__["c" /* WORLD_SIZE */];
-    let positionZ = Math.floor(Math.random() * __WEBPACK_IMPORTED_MODULE_0__constants_js__["c" /* WORLD_SIZE */]*2) - __WEBPACK_IMPORTED_MODULE_0__constants_js__["c" /* WORLD_SIZE */];
+    const positionX = Math.floor(Math.random() * __WEBPACK_IMPORTED_MODULE_0__constants_js__["c" /* WORLD_SIZE */] * 2) - __WEBPACK_IMPORTED_MODULE_0__constants_js__["c" /* WORLD_SIZE */];
+    const positionZ = Math.floor(Math.random() * __WEBPACK_IMPORTED_MODULE_0__constants_js__["c" /* WORLD_SIZE */] * 2) - __WEBPACK_IMPORTED_MODULE_0__constants_js__["c" /* WORLD_SIZE */];
     this.body.position.x = positionX;
     this.body.position.z = positionZ;
   }
 
-  toObject(){
+  toObject() {
     return {
-        name: this.name,
-        position:this.body.position,
-        rotation:this.body.rotation
+      name: this.name,
+      position: this.body.position,
+      rotation: this.body.rotation,
     };
   }
 
-  destroy(){
-      for(let i = 0;i<this.bullets.length;i++){
-          this.scene.remove(this.bullets[i]);
-      }
-      this.scene.remove(this.body);
+  destroy() {
+    for (let i = 0; i < this.bullets.length; i++) {
+      this.scene.remove(this.bullets[i]);
+    }
+    this.scene.remove(this.body);
   }
-
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = Tank;
 
