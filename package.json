@@ -1,10 +1,10 @@
 {
-  "name": "server",
+  "name": "tank3d",
   "version": "1.0.0",
   "description": "",
   "main": "server/server.js",
   "scripts": {
-    "dev": "nodemon server/server.js",
+    "dev": "start webpack-dev-server --inline --progress --port 8081 && start nodemon server/server.js",
     "start": "node server/server.js",
     "lint": "./node_modules/.bin/eslint ./public/src --fix",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -14,13 +14,22 @@
   "dependencies": {
     "express": "^4.15.2",
     "socket.io": "^1.7.3",
-    "synaptic": "^1.0.11"
+    "synaptic": "^1.0.11",
+    "socket.io-client": "^1.7.3",
+    "three": "^0.84.0"
   },
   "devDependencies": {
     "eslint": "^4.7.2",
     "eslint-config-airbnb-base": "^11.3.1",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-react": "^7.3.0",
-    "nodemon": "^1.11.0"
+    "nodemon": "^1.11.0",
+    "css-loader": "^0.26.2",
+    "file-loader": "^0.10.1",
+    "node-sass": "^4.5.0",
+    "sass-loader": "^6.0.2",
+    "style-loader": "^0.13.2",
+    "webpack": "^2.2.1",
+    "webpack-dev-server": "^2.4.1"
   }
 }
