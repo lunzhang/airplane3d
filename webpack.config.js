@@ -1,5 +1,3 @@
-const three = require('three');
-
 module.exports = {
   entry: {
    bundle: './public/src/app.js',
