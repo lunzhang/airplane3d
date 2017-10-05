@@ -1,3 +1,4 @@
+import * as THREE from 'three';
 import Tank from './tank.js';
 import * as CONSTANTS from './constants.js';
 
