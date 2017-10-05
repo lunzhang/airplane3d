@@ -1,23 +1,19 @@
-var path = require('path');
+const three = require('three');
 
-module.exports=[{
-  entry:{
-    'app':'./public/src/app.js'
+module.exports = {
+  entry: {
+   bundle: './public/src/app.js',
+   three: './public/src/three.js'
   },
   output:{
-      filename : 'bundle.js',
-      path: path.resolve(__dirname,'/publicbuild'),
-      publicPath: '/public/build/'
+      filename: '[name].js',
+      path: `${__dirname}/public/build/`,
   },
   module:{
     loaders:[
       {
-        test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/,
-        loader: 'file-loader'
-      },
-      {
-         test: /\.css$/,
-         loader: "style-loader!css-loader"
+        test: /\.js$/,
+        loader: 'babel-loader'
       },
       {
          test: /\.scss$/,
@@ -25,4 +21,4 @@ module.exports=[{
       }
     ]
   }
-}];
+};
