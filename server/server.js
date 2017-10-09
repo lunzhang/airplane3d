@@ -1,21 +1,22 @@
-var express = require('express');
-var app = express();
-var server = require('http').Server(app);
-var io = require('socket.io')(server);
-var path = require('path');
-var World = require('./world.js');
-var port = process.env.PORT || 80;
-var FRAME_RATE = 1000/60;
-var world = new World(io);
-var tanks = world.tanks;
-app.use('/public', express.static(__dirname + '/public'));
+const express = require('express');
+const app = express();
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
+const path = require('path');
+const World = require('./world.js');
+const port = process.env.PORT || 3000;
+const FRAME_RATE = 1000/60;
+const world = new World(io);
+const tanks = world.tanks;
+app.use(express.static(path.join(__dirname, '../public/build/')));
 
 app.get('/', function(req, res) {
-  res.sendFile(path.join(__dirname+'/public/index.html'));
+  console.log(__dirname);
+  res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
-app.set('port', (port));
-server.listen(port);
+app.set('port', port);
+app.listen(port);
 
 io.on('connection', function(socket){
 

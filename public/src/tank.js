@@ -1,3 +1,4 @@
+import * as THREE from 'three';
 import * as CONSTANTS from './constants.js';
 
 export default class Tank {
