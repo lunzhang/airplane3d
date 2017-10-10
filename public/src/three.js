@@ -1,1 +1,1 @@
-require('three');
+import 'three';

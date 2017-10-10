@@ -5,8 +5,8 @@
   "main": "server/server.js",
   "scripts": {
     "build": "webpack -p",
-    "dev":  "concurrently \"webpack-dev-server --inline --progress --port 8081 --content-base public/\" \"nodemon server/server.js\"",
-    "start": "concurrently \"npm run build\" \"node server/server.js\"",
+    "dev":  "concurrently \"webpack-dev-server --inline --progress --port 8080 --content-base public/\" \"nodemon server/server.js\"",
+    "start": "node server/server.js",
     "lint": "./node_modules/.bin/eslint ./public/src --fix",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
