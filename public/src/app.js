@@ -10,20 +10,13 @@ const name = document.getElementById('name');
 
 const game = new Game(socket, wrapper);
 
-const tanFOV = Math.tan(((Math.PI / 180) * game.camera.fov / 2));
-const clientHeight = 450;
-
-game.camera.fov = (360 / Math.PI) * Math.atan(tanFOV * (wrapper.clientHeight / clientHeight));
-game.camera.updateProjectionMatrix();
-
 window.addEventListener('resize', () => {
   const height = wrapper.clientHeight;
   const width = wrapper.clientWidth;
 
-  game.camera.fov = (360 / Math.PI) * Math.atan(tanFOV * (height / clientHeight));
-
   game.renderer.setSize(width, height);
   game.camera.aspect = width / height;
+  game.camera.position.y = height * 0.6;
   game.camera.updateProjectionMatrix();
 });
 

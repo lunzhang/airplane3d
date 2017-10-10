@@ -62,7 +62,7 @@ export default class Game {
 
     this.socket.on('fire', (id) => {
       const tank = this.tanks[id];
-      tank.fire();
+      if (tank) tank.fire();
     });
   }
 
@@ -76,10 +76,10 @@ export default class Game {
 
   initGame() {
     this.scene = new THREE.Scene();
-    this.camera = new THREE.PerspectiveCamera(45, this.wrapper.clientWidth / this.wrapper.clientHeight, 1, 2000);
+    this.camera = new THREE.PerspectiveCamera(45, this.wrapper.clientWidth / this.wrapper.clientHeight, 1, 1000);
     this.renderer = new THREE.WebGLRenderer();
 
-    this.camera.position.y = 100;
+    this.camera.position.y = this.wrapper.clientHeight * 0.6;
 
     this.tank = new Tank(this.scene, CONSTANTS.TANK_COLORS, this.name);
 
@@ -161,8 +161,8 @@ export default class Game {
       const bullet = this.tank.bullets[i];
 
       // out of bounds
-      if (bullet.position.x > CONSTANTS.WORLD_SIZE || bullet.position.x < -CONSTANTS.WORLD_SIZE
-        || bullet.position.z > CONSTANTS.WORLD_SIZE || bullet.position.z < -CONSTANTS.WORLD_SIZE) {
+      if (bullet.position.x > CONSTANTS.WORLD_SIZE || bullet.position.x < -CONSTANTS.WORLD_SIZE ||
+        bullet.position.z > CONSTANTS.WORLD_SIZE || bullet.position.z < -CONSTANTS.WORLD_SIZE) {
         this.scene.remove(bullet);
         this.tank.bullets.splice(i, 1);
       } else {
@@ -256,7 +256,7 @@ export default class Game {
     this.checkCollision();
 
     // camera lock on tank
-    this.camera.position.z = this.tank.body.position.z + 30;
+    this.camera.position.z = this.tank.body.position.z;
     this.camera.position.x = this.tank.body.position.x;
     this.camera.lookAt(this.tank.body.position);
 
