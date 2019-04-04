@@ -4,7 +4,6 @@ module.exports = {
     "node": true
   },
   "extends": "airbnb-base",
-  "plugins": ["react"],
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
@@ -22,8 +21,6 @@ module.exports = {
     "import/no-unresolved": 0,
     "import/extensions": 0,
     "default-case": 0,
-    "react/jsx-uses-vars": "error",
-    "react/jsx-uses-react": "error",
     "no-restricted-properties": 0,
     "class-methods-use-this": 0
   }
