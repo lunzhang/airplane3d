@@ -1,22 +1,45 @@
+const path = require('path');
+
 module.exports = {
-  entry: {
-   bundle: './public/src/app.js',
-   three: './public/src/three.js'
+  entry: ['./public/src/app.js'],
+  output: {
+      filename: 'bundle.js',
+      publicPath: '/public/',
+      path: path.resolve(__dirname, 'public'),
   },
-  output:{
-      filename: '[name].js',
-      path: `${__dirname}/public/build/`,
-  },
-  module:{
-    loaders:[
+  module: {
+    rules: [
       {
-        test: /\.js$/,
-        loader: 'babel-loader'
-      },
+        test: /\.m?js$/,
+        exclude: /(node_modules|bower_components)/,
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              presets: ['@babel/preset-env'],
+              plugins: ['@babel/plugin-proposal-object-rest-spread']
+            }
+          },
+          {
+            loader: 'eslint-loader',
+            options: {
+              emitWarning: true
+            }
+          }
+        ]
+      }
+    ],
+    loaders: [
       {
          test: /\.scss$/,
          loaders: [ 'style-loader', 'css-loader', 'sass-loader']
       }
     ]
+  },
+  devServer: {
+    watchContentBase: true,
+    inline: true,
+    port: 8080,
+    progress: true,
   }
 };

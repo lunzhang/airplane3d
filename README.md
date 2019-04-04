@@ -5,9 +5,7 @@ Multiplayer 3d tank game.
 <h1> Technology </h1>
 FrontEnd - threejs, webpack
 
-BackEnd - node, express, socketio, nodemon, synapticjs  
-
-The bots in the game are controlled using neural networks built on top of synapticjs.  The bots are designed to move towards the closest player.
+BackEnd - node, express, socketio, nodemon
 
 <h1> Development Instructions </h1>
 

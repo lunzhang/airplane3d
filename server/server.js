@@ -4,8 +4,8 @@ const server = require('http').Server(app);
 const io = require('socket.io')(server);
 const path = require('path');
 const World = require('./world.js');
-const port = process.env.PORT || 80;
-const FRAME_RATE = 1000/60;
+const port = process.env.PORT || 1993;
+const FRAME_RATE = 1000 / 60;
 const world = new World(io);
 const tanks = world.tanks;
 

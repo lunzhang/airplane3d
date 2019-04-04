@@ -1,58 +1,9 @@
-var synaptic = require('synaptic');
 
 var World = function(io){
   this.io = io;
   this.learningRate = .1;
   this.bots = 3;
   this.tanks = {
-    1:{
-      name:"bot 1",
-      network:new synaptic.Architect.Perceptron(3,12,3),
-      reloading:false,
-      rotation:{
-          _order:"XYZ",
-          _x:0,
-          _y:0,
-          _z:0
-      },
-      position:{
-        x:Math.random() * 300 -150,
-        z:Math.random() * 300 -150,
-        y:1.5
-      }
-    },
-    2:{
-      name:"bot 2",
-      network:new synaptic.Architect.Perceptron(3,12,3),
-      reloading:false,
-      rotation:{
-          _order:"XYZ",
-          _x:0,
-          _y:0,
-          _z:0
-      },
-      position:{
-        x:Math.random() * 300 -150,
-        z:Math.random() * 300 -150,
-        y:1.5
-      }
-    },
-    3:{
-      name:"bot 3",
-      network:new synaptic.Architect.Perceptron(3,12,3),
-      reloading:false,
-      rotation:{
-          _order:"XYZ",
-          _x:0,
-          _y:0,
-          _z:0
-      },
-      position:{
-        x:Math.random() * 300 -150,
-        z:Math.random() * 300 -150,
-        y:1.5
-      }
-    }
   };
 };
 
@@ -75,10 +26,6 @@ World.prototype = {
     update:function(){
       for(var i = 1;i<=this.bots;i++){
           var bot = this.tanks[i];
-          var output = bot.network.activate([bot.position.x,bot.position.z,bot.rotation._y]);
-          output.forEach(function(o,i){
-              output[i] = Math.round(o);
-          });
           var target = this.targetTank(bot);
           if(target != undefined){
             //turn left, turn right,
@@ -163,10 +110,7 @@ World.prototype = {
             }else if(bot.position.z < -150){
               bot.position.z = -150;
             }
-
-            bot.network.propagate(this.learningRate,action);
           }
-
       }
     },
     hit:function(id){

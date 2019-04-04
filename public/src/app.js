@@ -1,8 +1,9 @@
 import io from 'socket.io-client';
+import * as THREE from 'three';
 import Game from './game.js';
 import './style.scss';
-
-const socket = io.connect('http://localhost:80/');
+debugger;
+const socket = io.connect('http://localhost:1993/');
 const wrapper = document.getElementById('game-wrapper');
 const nameWrapper = document.getElementById('name-wrapper');
 const startBtn = document.getElementById('startBtn');
