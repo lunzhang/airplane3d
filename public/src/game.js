@@ -80,9 +80,10 @@ export default class Game {
     this.camera = new THREE.PerspectiveCamera(45, this.wrapper.clientWidth / this.wrapper.clientHeight, 1, 1000);
     this.renderer = new THREE.WebGLRenderer();
 
-    this.camera.position.y = this.wrapper.clientHeight * 0.6;
     this.airplane = new Airplane();
     this.scene.add(this.airplane.mesh);
+
+
     this.tank = new Tank(this.scene, CONSTANTS.TANK_COLORS, this.name);
 
     const positionX = Math.floor(Math.random() * CONSTANTS.WORLD_SIZE * 2) - CONSTANTS.WORLD_SIZE;
@@ -105,11 +106,11 @@ export default class Game {
     this.scene.add(shadowLight);
 
     // add ground
-    const geometry = new THREE.PlaneGeometry(CONSTANTS.WORLD_SIZE * 2, CONSTANTS.WORLD_SIZE * 2);
-    const material = new THREE.MeshBasicMaterial({ color: 'white', side: THREE.DoubleSide });
-    const ground = new THREE.Mesh(geometry, material);
-    ground.rotation.x = 90 * (Math.PI / 180);
-    this.scene.add(ground);
+    // const geometry = new THREE.PlaneGeometry(CONSTANTS.WORLD_SIZE * 2, CONSTANTS.WORLD_SIZE * 2);
+    // const material = new THREE.MeshBasicMaterial({ color: 'white', side: THREE.DoubleSide });
+    // const ground = new THREE.Mesh(geometry, material);
+    // ground.rotation.x = 90 * (Math.PI / 180);
+    // this.scene.add(ground);
 
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(this.wrapper.clientWidth, this.wrapper.clientHeight);
@@ -258,10 +259,12 @@ export default class Game {
     this.checkCollision();
 
     // camera lock on tank
-    this.camera.position.z = this.tank.body.position.z;
-    this.camera.position.x = this.tank.body.position.x;
-    this.camera.lookAt(this.tank.body.position);
-
+    this.camera.up.x = 1;
+    this.camera.position.y = this.airplane.mesh.position.y + 300;
+    this.camera.position.z = this.airplane.mesh.position.z;
+    this.camera.position.x = this.airplane.mesh.position.x - 300;
+    this.camera.lookAt(this.airplane.mesh.position);
+    //this.airplane.mesh.translateX(1);
     // render scene
     this.renderer.render(this.scene, this.camera);
 
