@@ -105,11 +105,16 @@ export default class Game {
     this.scene.add(shadowLight);
 
     // add ground
-    const geometry = new THREE.PlaneGeometry(CONSTANTS.WORLD_SIZE * 2, CONSTANTS.WORLD_SIZE * 2);
-    const material = new THREE.MeshBasicMaterial({ color: '#006994', side: THREE.DoubleSide });
-    const ground = new THREE.Mesh(geometry, material);
-    ground.rotation.x = 90 * (Math.PI / 180);
-    this.scene.add(ground);
+    const loader = new THREE.TextureLoader();
+		const groundTexture = loader.load('src/grasslight-big.jpg');
+		groundTexture.wrapS = groundTexture.wrapT = THREE.RepeatWrapping;
+		groundTexture.repeat.set(25, 25);
+		groundTexture.anisotropy = 16;
+		const groundMaterial = new THREE.MeshLambertMaterial({ map: groundTexture });
+		const groundMesh = new THREE.Mesh(new THREE.PlaneBufferGeometry(20000, 20000), groundMaterial);
+		groundMesh.rotation.x = - Math.PI / 2;
+		groundMesh.receiveShadow = true;
+		this.scene.add(groundMesh);
 
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(this.wrapper.clientWidth, this.wrapper.clientHeight);
