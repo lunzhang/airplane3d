@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import * as CONSTANTS from './constants.js';
+import * as CONSTANTS from './Constants';
 
 export default class Tank {
   constructor(scene, color, name) {

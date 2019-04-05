@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import Tank from './Tank';
 import Airplane from './Airplane';
-import * as CONSTANTS from './constants.js';
+import * as CONSTANTS from './Constants';
 
 export default class Game {
   constructor(socket, wrapper) {
@@ -83,7 +83,6 @@ export default class Game {
     this.airplane = new Airplane();
     this.scene.add(this.airplane.mesh);
 
-
     this.tank = new Tank(this.scene, CONSTANTS.TANK_COLORS, this.name);
 
     const positionX = Math.floor(Math.random() * CONSTANTS.WORLD_SIZE * 2) - CONSTANTS.WORLD_SIZE;
@@ -106,11 +105,11 @@ export default class Game {
     this.scene.add(shadowLight);
 
     // add ground
-    // const geometry = new THREE.PlaneGeometry(CONSTANTS.WORLD_SIZE * 2, CONSTANTS.WORLD_SIZE * 2);
-    // const material = new THREE.MeshBasicMaterial({ color: 'white', side: THREE.DoubleSide });
-    // const ground = new THREE.Mesh(geometry, material);
-    // ground.rotation.x = 90 * (Math.PI / 180);
-    // this.scene.add(ground);
+    const geometry = new THREE.PlaneGeometry(CONSTANTS.WORLD_SIZE * 2, CONSTANTS.WORLD_SIZE * 2);
+    const material = new THREE.MeshBasicMaterial({ color: '#006994', side: THREE.DoubleSide });
+    const ground = new THREE.Mesh(geometry, material);
+    ground.rotation.x = 90 * (Math.PI / 180);
+    this.scene.add(ground);
 
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(this.wrapper.clientWidth, this.wrapper.clientHeight);
@@ -121,7 +120,7 @@ export default class Game {
     window.addEventListener('keydown', (e) => {
       switch (e.code) {
         case 'KeyW':
-          this.tank.moveForward = true;
+          this.airplane.mesh.translateX(1);
           break;
         case 'KeyS':
           this.tank.moveBackward = true;
@@ -260,9 +259,9 @@ export default class Game {
 
     // camera lock on tank
     this.camera.up.x = 1;
-    this.camera.position.y = this.airplane.mesh.position.y + 300;
+    this.camera.position.y = this.airplane.mesh.position.y + 100;
     this.camera.position.z = this.airplane.mesh.position.z;
-    this.camera.position.x = this.airplane.mesh.position.x - 300;
+    this.camera.position.x = this.airplane.mesh.position.x - 350;
     this.camera.lookAt(this.airplane.mesh.position);
     //this.airplane.mesh.translateX(1);
     // render scene

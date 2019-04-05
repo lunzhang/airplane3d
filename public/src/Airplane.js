@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import Colors from './Colors';
+import * as CONSTANTS from './Constants';
 
 export default class Airplane {
   constructor() {
@@ -8,7 +8,7 @@ export default class Airplane {
 
     // Cabin
     const geomCabin = new THREE.BoxGeometry(80, 50, 50, 1, 1, 1);
-    const matCabin = new THREE.MeshPhongMaterial({ color: Colors.red, shading: THREE.FlatShading });
+    const matCabin = new THREE.MeshPhongMaterial({ color: CONSTANTS.COLORS.red, shading: THREE.FlatShading });
 
     geomCabin.vertices[4].y -= 10;
     geomCabin.vertices[4].z += 20;
@@ -27,7 +27,7 @@ export default class Airplane {
     // Engine
 
     const geomEngine = new THREE.BoxGeometry(20, 50, 50, 1, 1, 1);
-    const matEngine = new THREE.MeshPhongMaterial({ color: Colors.white, shading: THREE.FlatShading });
+    const matEngine = new THREE.MeshPhongMaterial({ color: CONSTANTS.COLORS.white, shading: THREE.FlatShading });
     const engine = new THREE.Mesh(geomEngine, matEngine);
     engine.position.x = 50;
     engine.castShadow = true;
@@ -37,7 +37,7 @@ export default class Airplane {
     // Tail Plane
 
     const geomTailPlane = new THREE.BoxGeometry(15, 20, 5, 1, 1, 1);
-    const matTailPlane = new THREE.MeshPhongMaterial({ color: Colors.red, shading: THREE.FlatShading });
+    const matTailPlane = new THREE.MeshPhongMaterial({ color: CONSTANTS.COLORS.red, shading: THREE.FlatShading });
     const tailPlane = new THREE.Mesh(geomTailPlane, matTailPlane);
     tailPlane.position.set(-40, 20, 0);
     tailPlane.castShadow = true;
@@ -47,7 +47,7 @@ export default class Airplane {
     // Wings
 
     const geomSideWing = new THREE.BoxGeometry(30, 5, 120, 1, 1, 1);
-    const matSideWing = new THREE.MeshPhongMaterial({ color: Colors.red, shading: THREE.FlatShading });
+    const matSideWing = new THREE.MeshPhongMaterial({ color: CONSTANTS.COLORS.red, shading: THREE.FlatShading });
     const sideWing = new THREE.Mesh(geomSideWing, matSideWing);
     sideWing.position.set(0, 15, 0);
     sideWing.castShadow = true;
@@ -56,7 +56,7 @@ export default class Airplane {
 
     const geomWindshield = new THREE.BoxGeometry(3, 15, 20, 1, 1, 1);
     const matWindshield = new THREE.MeshPhongMaterial({
-      color: Colors.white, transparent: true, opacity: 0.3, shading: THREE.FlatShading,
+      color: CONSTANTS.COLORS.white, transparent: true, opacity: 0.3, shading: THREE.FlatShading,
     });
     const windshield = new THREE.Mesh(geomWindshield, matWindshield);
     windshield.position.set(5, 27, 0);
@@ -75,14 +75,14 @@ export default class Airplane {
     geomPropeller.vertices[6].z += 5;
     geomPropeller.vertices[7].y += 5;
     geomPropeller.vertices[7].z -= 5;
-    const matPropeller = new THREE.MeshPhongMaterial({ color: Colors.brown, shading: THREE.FlatShading });
+    const matPropeller = new THREE.MeshPhongMaterial({ color: CONSTANTS.COLORS.brown, shading: THREE.FlatShading });
     this.propeller = new THREE.Mesh(geomPropeller, matPropeller);
 
     this.propeller.castShadow = true;
     this.propeller.receiveShadow = true;
 
     const geomBlade = new THREE.BoxGeometry(1, 80, 10, 1, 1, 1);
-    const matBlade = new THREE.MeshPhongMaterial({ color: Colors.brownDark, shading: THREE.FlatShading });
+    const matBlade = new THREE.MeshPhongMaterial({ color: CONSTANTS.COLORS.brownDark, shading: THREE.FlatShading });
     const blade1 = new THREE.Mesh(geomBlade, matBlade);
     blade1.position.set(8, 0, 0);
 
@@ -101,18 +101,18 @@ export default class Airplane {
     this.mesh.add(this.propeller);
 
     const wheelProtecGeom = new THREE.BoxGeometry(30, 15, 10, 1, 1, 1);
-    const wheelProtecMat = new THREE.MeshPhongMaterial({ color: Colors.red, shading: THREE.FlatShading });
+    const wheelProtecMat = new THREE.MeshPhongMaterial({ color: CONSTANTS.COLORS.red, shading: THREE.FlatShading });
     const wheelProtecR = new THREE.Mesh(wheelProtecGeom, wheelProtecMat);
     wheelProtecR.position.set(25, -20, 25);
     this.mesh.add(wheelProtecR);
 
     const wheelTireGeom = new THREE.BoxGeometry(24, 24, 4);
-    const wheelTireMat = new THREE.MeshPhongMaterial({ color: Colors.brownDark, shading: THREE.FlatShading });
+    const wheelTireMat = new THREE.MeshPhongMaterial({ color: CONSTANTS.COLORS.brownDark, shading: THREE.FlatShading });
     const wheelTireR = new THREE.Mesh(wheelTireGeom, wheelTireMat);
     wheelTireR.position.set(25, -28, 25);
 
     const wheelAxisGeom = new THREE.BoxGeometry(10, 10, 6);
-    const wheelAxisMat = new THREE.MeshPhongMaterial({ color: Colors.brown, shading: THREE.FlatShading });
+    const wheelAxisMat = new THREE.MeshPhongMaterial({ color: CONSTANTS.COLORS.brown, shading: THREE.FlatShading });
     const wheelAxis = new THREE.Mesh(wheelAxisGeom, wheelAxisMat);
     wheelTireR.add(wheelAxis);
 
@@ -133,7 +133,7 @@ export default class Airplane {
 
     const suspensionGeom = new THREE.BoxGeometry(4, 20, 4);
     suspensionGeom.applyMatrix(new THREE.Matrix4().makeTranslation(0, 10, 0));
-    const suspensionMat = new THREE.MeshPhongMaterial({ color: Colors.red, shading: THREE.FlatShading });
+    const suspensionMat = new THREE.MeshPhongMaterial({ color: CONSTANTS.COLORS.red, shading: THREE.FlatShading });
     const suspension = new THREE.Mesh(suspensionGeom, suspensionMat);
     suspension.position.set(-35, -5, 0);
     suspension.rotation.z = -0.3;
