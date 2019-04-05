@@ -18,7 +18,7 @@ app.get('/', function(req, res) {
 app.set('port', port);
 server.listen(port);
 
-io.on('connection', function(socket){
+io.on('connection', function(socket) {
 
   //user enters game
   socket.on('enter',function(tank){
@@ -62,8 +62,8 @@ io.on('connection', function(socket){
 
 });
 
-//constant update of tanks
-setInterval(function(){
+//constant update of planes
+setInterval(function() {
   world.update();
   io.emit('update',tanks);
-},FRAME_RATE);
+}, FRAME_RATE);

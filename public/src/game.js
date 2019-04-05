@@ -1,5 +1,6 @@
 import * as THREE from 'three';
-import Tank from './tank.js';
+import Tank from './Tank';
+import Airplane from './Airplane';
 import * as CONSTANTS from './constants.js';
 
 export default class Game {
@@ -80,7 +81,8 @@ export default class Game {
     this.renderer = new THREE.WebGLRenderer();
 
     this.camera.position.y = this.wrapper.clientHeight * 0.6;
-
+    this.airplane = new Airplane();
+    this.scene.add(this.airplane.mesh);
     this.tank = new Tank(this.scene, CONSTANTS.TANK_COLORS, this.name);
 
     const positionX = Math.floor(Math.random() * CONSTANTS.WORLD_SIZE * 2) - CONSTANTS.WORLD_SIZE;

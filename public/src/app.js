@@ -20,10 +20,10 @@ window.addEventListener('resize', () => {
   game.camera.position.y = height * 0.6;
   game.camera.updateProjectionMatrix();
 });
+game.start('hi');
+nameWrapper.style.display = 'none';
 
 startBtn.addEventListener('click', () => {
   if (name.value.length > 0) {
-    game.start(name.value);
-    nameWrapper.style.display = 'none';
   }
 });
