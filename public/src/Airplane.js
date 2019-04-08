@@ -142,4 +142,8 @@ export default class Airplane {
     this.mesh.castShadow = true;
     this.mesh.receiveShadow = true;
   }
+
+  update() {
+
+  }
 }

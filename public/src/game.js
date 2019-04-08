@@ -1,5 +1,4 @@
 import * as THREE from 'three';
-import Tank from './Tank';
 import Airplane from './Airplane';
 import * as CONSTANTS from './Constants';
 
@@ -7,54 +6,53 @@ export default class Game {
   constructor(socket, wrapper) {
     this.socket = socket;
     this.wrapper = wrapper;
-    this.tanks = {};
+    this.airplanes = {};
     this.display = document.getElementById('display');
     this.initGame();
   }
 
   start(name) {
-    this.tank.name = name;
     this.initListeners();
     this.initSocket();
-    this.socket.emit('enter', this.tank.toObject());
+    // this.socket.emit('enter', this.airplane.toObject());
     this.animate();
   }
 
   initSocket() {
-    // constant update of other tanks
-    this.socket.on('update', (tanks) => {
-      Object.keys(tanks).forEach((prop) => {
+    // constant update of other airplanes
+    this.socket.on('update', (airplanes) => {
+      Object.keys(airplanes).forEach((prop) => {
         if (prop !== this.socket.id) {
-          const tank = this.tanks[prop];
-          if (tank) {
-            // update tank
-            tank.body.position.copy(tanks[prop].position);
-            tank.body.rotation.copy(tanks[prop].rotation);
-          } else {
-            // create new tank
-            const newT = new Tank(this.scene, CONSTANTS.TANKS_COLORS, tanks[prop].name);
-            newT.body.position.copy(tanks[prop].position);
-            if (prop.length < 2) newT.moveForward = true;
-            newT.body.rotation.copy(tanks[prop].rotation);
-            this.tanks[prop] = newT;
-            this.appendMsg(`${tanks[prop].name} has entered`);
-          }
+          const airplane = this.airplanes[prop];
+          // if (airplane) {
+          //   // update tank
+          //   airplane.body.position.copy(tanks[prop].position);
+          //   airplane.body.rotation.copy(tanks[prop].rotation);
+          // } else {
+          //   // create new tank
+          //   const newT = new Tank(this.scene, CONSTANTS.TANKS_COLORS, tanks[prop].name);
+          //   newT.body.position.copy(tanks[prop].position);
+          //   if (prop.length < 2) newT.moveForward = true;
+          //   newT.body.rotation.copy(tanks[prop].rotation);
+          //   this.tanks[prop] = newT;
+          //   this.appendMsg(`${tanks[prop].name} has entered`);
+          // }
         }
       });
 
-      // remove non existing tanks
-      Object.keys(this.tanks).forEach((prop) => {
-        const tank = tanks[prop];
-        if (!tank) {
-          this.appendMsg(`${this.tanks[prop].name} has left`);
-          this.tanks[prop].destroy();
-          delete this.tanks[prop];
-        }
-      });
+      // remove non existing airplanes
+      // Object.keys(this.airplanes).forEach((prop) => {
+      //   const tank = tanks[prop];
+      //   if (!tank) {
+      //     this.appendMsg(`${this.tanks[prop].name} has left`);
+      //     this.tanks[prop].destroy();
+      //     delete this.tanks[prop];
+      //   }
+      // });
     });
 
     this.socket.on('hit', () => {
-      this.tank.restart();
+      // this.tank.restart();
     });
 
     this.socket.on('msg', (msg) => {
@@ -62,8 +60,8 @@ export default class Game {
     });
 
     this.socket.on('fire', (id) => {
-      const tank = this.tanks[id];
-      if (tank) tank.fire();
+      // const tank = this.tanks[id];
+      // if (tank) tank.fire();
     });
   }
 
@@ -83,14 +81,14 @@ export default class Game {
     this.airplane = new Airplane();
     this.scene.add(this.airplane.mesh);
 
-    this.tank = new Tank(this.scene, CONSTANTS.TANK_COLORS, this.name);
+    // this.tank = new Tank(this.scene, CONSTANTS.TANK_COLORS, this.name);
 
     const positionX = Math.floor(Math.random() * CONSTANTS.WORLD_SIZE * 2) - CONSTANTS.WORLD_SIZE;
     const positionZ = Math.floor(Math.random() * CONSTANTS.WORLD_SIZE * 2) - CONSTANTS.WORLD_SIZE;
 
-    this.tank.body.position.y = 1.5;
-    this.tank.body.position.x = positionX;
-    this.tank.body.position.z = positionZ;
+    // this.tank.body.position.y = 1.5;
+    // this.tank.body.position.x = positionX;
+    // this.tank.body.position.z = positionZ;
 
     // A hemisphere light is a gradient colored light;
     const hemisphereLight = new THREE.HemisphereLight(0xaaaaaa, 0x000000, 0.9);
@@ -128,13 +126,10 @@ export default class Game {
           this.airplane.mesh.translateX(1);
           break;
         case 'KeyS':
-          this.tank.moveBackward = true;
           break;
         case 'KeyA':
-          this.tank.turnLeft = true;
           break;
         case 'KeyD':
-          this.tank.turnRight = true;
           break;
       }
     });
@@ -142,85 +137,80 @@ export default class Game {
     window.addEventListener('keyup', (e) => {
       switch (e.code) {
         case 'KeyW':
-          this.tank.moveForward = false;
           break;
         case 'KeyS':
-          this.tank.moveBackward = false;
           break;
         case 'KeyA':
-          this.tank.turnLeft = false;
           break;
         case 'KeyD':
-          this.tank.turnRight = false;
           break;
       }
     });
 
     window.addEventListener('click', () => {
-      this.tank.fire();
       this.socket.emit('fire');
     });
   }
 
   checkCollision() {
     // check tank bullets collisions
-    for (let i = this.tank.bullets.length - 1; i >= 0; i--) {
-      const bullet = this.tank.bullets[i];
-
-      // out of bounds
-      if (bullet.position.x > CONSTANTS.WORLD_SIZE || bullet.position.x < -CONSTANTS.WORLD_SIZE ||
-        bullet.position.z > CONSTANTS.WORLD_SIZE || bullet.position.z < -CONSTANTS.WORLD_SIZE) {
-        this.scene.remove(bullet);
-        this.tank.bullets.splice(i, 1);
-      } else {
-        // collision with other tanks
-        Object.keys(this.tanks).forEach((prop) => {
-          if (prop !== this.socket.id) {
-            const tank = this.tanks[prop];
-
-            if (this.collision(bullet, tank.body)) {
-              this.scene.remove(bullet);
-              this.tank.bullets.splice(i, 1);
-              this.socket.emit('hit', prop);
-            }
-          }
-        });
-      }
-    }
+    // for (let i = this.tank.bullets.length - 1; i >= 0; i--) {
+    //   const bullet = this.tank.bullets[i];
+    //
+    //   // out of bounds
+    //   if (bullet.position.x > CONSTANTS.WORLD_SIZE || bullet.position.x < -CONSTANTS.WORLD_SIZE ||
+    //     bullet.position.z > CONSTANTS.WORLD_SIZE || bullet.position.z < -CONSTANTS.WORLD_SIZE) {
+    //     this.scene.remove(bullet);
+    //     this.tank.bullets.splice(i, 1);
+    //   } else {
+    //     // collision with other tanks
+    //     Object.keys(this.tanks).forEach((prop) => {
+    //       if (prop !== this.socket.id) {
+    //         const tank = this.tanks[prop];
+    //
+    //         if (this.collision(bullet, tank.body)) {
+    //           this.scene.remove(bullet);
+    //           this.tank.bullets.splice(i, 1);
+    //           this.socket.emit('hit', prop);
+    //         }
+    //       }
+    //     });
+    //   }
+    // }
 
     // check other tanks bullets collisions
-    Object.keys(this.tanks).forEach((prop) => {
-      const tank = this.tanks[prop];
-      // out of bounds
-      for (let j = tank.bullets.length - 1; j >= 0; j--) {
-        const bullet = tank.bullets[j];
-
-        if (bullet.position.x > CONSTANTS.WORLD_SIZE || bullet.position.x < -CONSTANTS.WORLD_SIZE
-            || bullet.position.z > CONSTANTS.WORLD_SIZE || bullet.position.z < -CONSTANTS.WORLD_SIZE) {
-          this.scene.remove(bullet);
-          tank.bullets.splice(j, 1);
-        } else if (prop < 5 && this.collision(bullet, this.tank.body)) {
-          // check bots bullets with player tank
-          this.scene.remove(bullet);
-          tank.bullets.splice(j, 1);
-          this.socket.emit('bothit', prop);
-          break;
-        }
-      }
-    });
+    // Object.keys(this.tanks).forEach((prop) => {
+    //   const tank = this.tanks[prop];
+    //   // out of bounds
+    //   for (let j = tank.bullets.length - 1; j >= 0; j--) {
+    //     const bullet = tank.bullets[j];
+    //
+    //     if (bullet.position.x > CONSTANTS.WORLD_SIZE || bullet.position.x < -CONSTANTS.WORLD_SIZE
+    //         || bullet.position.z > CONSTANTS.WORLD_SIZE || bullet.position.z < -CONSTANTS.WORLD_SIZE) {
+    //       this.scene.remove(bullet);
+    //       tank.bullets.splice(j, 1);
+    //     } else if (prop < 5 && this.collision(bullet, this.tank.body)) {
+    //       // check bots bullets with player tank
+    //       this.scene.remove(bullet);
+    //       tank.bullets.splice(j, 1);
+    //       this.socket.emit('bothit', prop);
+    //       break;
+    //     }
+    //   }
+    // });
 
     // tank bounds
-    if (this.tank.body.position.x > CONSTANTS.WORLD_SIZE) {
-      this.tank.body.position.x = CONSTANTS.WORLD_SIZE;
-    } else if (this.tank.body.position.x < -CONSTANTS.WORLD_SIZE) {
-      this.tank.body.position.x = -CONSTANTS.WORLD_SIZE;
-    }
-
-    if (this.tank.body.position.z > CONSTANTS.WORLD_SIZE) {
-      this.tank.body.position.z = CONSTANTS.WORLD_SIZE;
-    } else if (this.tank.body.position.z < -CONSTANTS.WORLD_SIZE) {
-      this.tank.body.position.z = -CONSTANTS.WORLD_SIZE;
-    }
+    // if (this.tank.body.position.x > CONSTANTS.WORLD_SIZE) {
+    //   this.tank.body.position.x = CONSTANTS.WORLD_SIZE;
+    // } else if (this.tank.body.position.x < -CONSTANTS.WORLD_SIZE) {
+    //   this.tank.body.position.x = -CONSTANTS.WORLD_SIZE;
+    // }
+    //
+    // if (this.tank.body.position.z > CONSTANTS.WORLD_SIZE) {
+    //   this.tank.body.position.z = CONSTANTS.WORLD_SIZE;
+    // } else if (this.tank.body.position.z < -CONSTANTS.WORLD_SIZE) {
+    //   this.tank.body.position.z = -CONSTANTS.WORLD_SIZE;
+    // }
   }
 
   collision(a, b) {
@@ -249,20 +239,11 @@ export default class Game {
       this.animate();
     });
 
-    this.tank.update();
-    this.tank.updateBullets();
-
-    // update tanks bullets
-    Object.keys(this.tanks).forEach((prop) => {
-      if (prop !== this.socket.id) {
-        const tank = this.tanks[prop];
-        tank.updateBullets();
-      }
-    });
+    this.airplane.update();
 
     this.checkCollision();
 
-    // camera lock on tank
+    // camera lock on airplane
     this.camera.up.x = 1;
     this.camera.position.y = this.airplane.mesh.position.y + 100;
     this.camera.position.z = this.airplane.mesh.position.z;
@@ -272,6 +253,6 @@ export default class Game {
     // render scene
     this.renderer.render(this.scene, this.camera);
 
-    this.socket.emit('update', this.tank.toObject());
+    // this.socket.emit('update', this.airplane.toObject());
   }
 }
