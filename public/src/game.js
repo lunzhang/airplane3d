@@ -123,13 +123,16 @@ export default class Game {
     window.addEventListener('keydown', (e) => {
       switch (e.code) {
         case 'KeyW':
-          this.airplane.mesh.translateX(1);
+          this.airplane.rotateUp = true;
           break;
         case 'KeyS':
+          this.airplane.rotateDown = true;
           break;
         case 'KeyA':
+          this.airplane.rotateLeft = true;
           break;
         case 'KeyD':
+          this.airplane.rotateRight = true;
           break;
       }
     });
@@ -137,12 +140,16 @@ export default class Game {
     window.addEventListener('keyup', (e) => {
       switch (e.code) {
         case 'KeyW':
+          this.airplane.rotateUp = false;
           break;
         case 'KeyS':
+          this.airplane.rotateDown = false;
           break;
         case 'KeyA':
+          this.airplane.rotateLeft = false;
           break;
         case 'KeyD':
+          this.airplane.rotateRight = false;
           break;
       }
     });

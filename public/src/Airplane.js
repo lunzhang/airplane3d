@@ -1,6 +1,8 @@
 import * as THREE from 'three';
 import * as CONSTANTS from './Constants';
 
+const ROTATION_SPEED = 0.03;
+
 export default class Airplane {
   constructor() {
     this.mesh = new THREE.Object3D();
@@ -25,7 +27,6 @@ export default class Airplane {
     this.mesh.add(cabin);
 
     // Engine
-
     const geomEngine = new THREE.BoxGeometry(20, 50, 50, 1, 1, 1);
     const matEngine = new THREE.MeshPhongMaterial({ color: CONSTANTS.COLORS.white, shading: THREE.FlatShading });
     const engine = new THREE.Mesh(geomEngine, matEngine);
@@ -144,6 +145,24 @@ export default class Airplane {
   }
 
   update() {
-
+    if (this.rotateUp) {
+      this.mesh.rotateZ(ROTATION_SPEED);
+    }
+    if (this.rotateDown) {
+      this.mesh.rotateZ(-ROTATION_SPEED);
+    }
+    if (this.rotateLeft) {
+      this.mesh.rotateX(Math.cos(this.mesh.rotation.z) * -ROTATION_SPEED);
+      this.mesh.rotateY(Math.sin(this.mesh.rotation.z) * ROTATION_SPEED);
+    }
+    if (this.rotateRight) {
+      this.mesh.rotateX(Math.cos(this.mesh.rotation.z) * ROTATION_SPEED);
+      this.mesh.rotateY(Math.sin(this.mesh.rotation.z) * -ROTATION_SPEED);
+    }
+    //this.mesh.translateY(this.mesh.rotation.z);
+    // console.log(this.mesh.rotation.z);
+    // this.mesh.translateZ(0.1)
+    // this.mesh.translateZ(this.mesh.rotation.y);
+    // this.mesh.translateX(0.1);
   }
 }
