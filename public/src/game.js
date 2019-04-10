@@ -39,6 +39,7 @@ export default class Game {
             newPlane.mesh.position.copy(plane.position);
             newPlane.mesh.rotation.copy(plane.rotation);
             this.airplanes[prop] = newPlane;
+            this.scene.add(newPlane.mesh);
           }
         }
       });
@@ -88,17 +89,9 @@ export default class Game {
     this.airplane.mesh.position.x = positionX;
     this.airplane.mesh.position.z = positionZ;
 
-    // A hemisphere light is a gradient colored light;
-    const hemisphereLight = new THREE.HemisphereLight(0xaaaaaa, 0x000000, 0.9);
-
-    // A directional light shines from a specific direction.
-    const shadowLight = new THREE.DirectionalLight(0xffffff, 0.9);
-
-    // Set the direction of the light
-    shadowLight.position.set(150, 350, 350);
-
-    this.scene.add(hemisphereLight);
-    this.scene.add(shadowLight);
+    //  Light up the science
+    const light = new THREE.AmbientLight(0xffffff);
+    this.scene.add(light);
 
     // add ground
     // const loader = new THREE.TextureLoader();
@@ -255,7 +248,6 @@ export default class Game {
     this.camera.position.z = this.airplane.mesh.position.z;
     this.camera.position.x = this.airplane.mesh.position.x - 350;
     this.camera.lookAt(this.airplane.mesh.position);
-    // this.airplane.mesh.translateX(1);
     // render scene
     this.renderer.render(this.scene, this.camera);
 
