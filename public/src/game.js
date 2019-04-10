@@ -2,6 +2,10 @@ import * as THREE from 'three';
 import Airplane from './Airplane';
 import * as CONSTANTS from './Constants';
 
+function getRandomRange(min, max) {
+  return Math.random() * (max - min) + min;
+}
+
 export default class Game {
   constructor(socket, wrapper) {
     this.socket = socket;
@@ -24,31 +28,28 @@ export default class Game {
       Object.keys(airplanes).forEach((prop) => {
         if (prop !== this.socket.id) {
           const airplane = this.airplanes[prop];
-          // if (airplane) {
-          //   // update tank
-          //   airplane.body.position.copy(tanks[prop].position);
-          //   airplane.body.rotation.copy(tanks[prop].rotation);
-          // } else {
-          //   // create new tank
-          //   const newT = new Tank(this.scene, CONSTANTS.TANKS_COLORS, tanks[prop].name);
-          //   newT.body.position.copy(tanks[prop].position);
-          //   if (prop.length < 2) newT.moveForward = true;
-          //   newT.body.rotation.copy(tanks[prop].rotation);
-          //   this.tanks[prop] = newT;
-          //   this.appendMsg(`${tanks[prop].name} has entered`);
-          // }
+          if (airplane) {
+            // update airplane
+            airplane.mesh.position.copy(mesh[prop].position);
+            airplane.mesh.rotation.copy(mesh[prop].rotation);
+          } else {
+            // create new airplane
+            const newPlane = new Airplane();
+            newPlane.mesh.position.copy(airplanes[prop].position);
+            newPlane.mesh.rotation.copy(tanks[prop].rotation);
+            this.airplanes[prop] = newPlane;
+          }
         }
       });
 
       // remove non existing airplanes
-      // Object.keys(this.airplanes).forEach((prop) => {
-      //   const tank = tanks[prop];
-      //   if (!tank) {
-      //     this.appendMsg(`${this.tanks[prop].name} has left`);
-      //     this.tanks[prop].destroy();
-      //     delete this.tanks[prop];
-      //   }
-      // });
+      Object.keys(this.airplanes).forEach((prop) => {
+        const plane = airplanes[prop];
+        if (!plane) {
+          this.airplanes[prop].destroy();
+          delete this.airplanes[prop];
+        }
+      });
     });
 
     this.socket.on('hit', () => {
@@ -78,17 +79,13 @@ export default class Game {
     this.camera = new THREE.PerspectiveCamera(45, this.wrapper.clientWidth / this.wrapper.clientHeight, 1, 1000);
     this.renderer = new THREE.WebGLRenderer();
 
+    const positionX = getRandomRange(-CONSTANTS.WORLD_SIZE / 2, CONSTANTS.WORLD_SIZE / 2);
+    const positionZ = getRandomRange(-CONSTANTS.WORLD_SIZE / 2, CONSTANTS.WORLD_SIZE / 2);
     this.airplane = new Airplane();
     this.scene.add(this.airplane.mesh);
-
-    // this.tank = new Tank(this.scene, CONSTANTS.TANK_COLORS, this.name);
-
-    const positionX = Math.floor(Math.random() * CONSTANTS.WORLD_SIZE * 2) - CONSTANTS.WORLD_SIZE;
-    const positionZ = Math.floor(Math.random() * CONSTANTS.WORLD_SIZE * 2) - CONSTANTS.WORLD_SIZE;
-
-    // this.tank.body.position.y = 1.5;
-    // this.tank.body.position.x = positionX;
-    // this.tank.body.position.z = positionZ;
+    this.airplane.mesh.position.y = 1.5;
+    this.airplane.mesh.position.x = positionX;
+    this.airplane.mesh.position.z = positionZ;
 
     // A hemisphere light is a gradient colored light;
     const hemisphereLight = new THREE.HemisphereLight(0xaaaaaa, 0x000000, 0.9);
@@ -103,16 +100,17 @@ export default class Game {
     this.scene.add(shadowLight);
 
     // add ground
-    const loader = new THREE.TextureLoader();
-		const groundTexture = loader.load('src/grasslight-big.jpg');
-		groundTexture.wrapS = groundTexture.wrapT = THREE.RepeatWrapping;
-		groundTexture.repeat.set(25, 25);
-		groundTexture.anisotropy = 16;
-		const groundMaterial = new THREE.MeshLambertMaterial({ map: groundTexture });
-		const groundMesh = new THREE.Mesh(new THREE.PlaneBufferGeometry(20000, 20000), groundMaterial);
-		groundMesh.rotation.x = - Math.PI / 2;
-		groundMesh.receiveShadow = true;
-		this.scene.add(groundMesh);
+    // const loader = new THREE.TextureLoader();
+		// const groundTexture = loader.load('src/grasslight-big.jpg');
+		// groundTexture.wrapS = groundTexture.wrapT = THREE.RepeatWrapping;
+		// groundTexture.repeat.set(25, 25);
+		// groundTexture.anisotropy = 16;
+		// const groundMaterial = new THREE.MeshLambertMaterial({ map: groundTexture });
+		// const groundMesh = new THREE.Mesh(new THREE.PlaneBufferGeometry(CONSTANTS.WORLD_SIZE, CONSTANTS.WORLD_SIZE), groundMaterial);
+		// groundMesh.rotation.x = - Math.PI / 2;
+		// groundMesh.receiveShadow = true;
+    // console.log(groundMesh.position, positionX, positionZ);
+		// this.scene.add(groundMesh);
 
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(this.wrapper.clientWidth, this.wrapper.clientHeight);

@@ -36,7 +36,6 @@ export default class Airplane {
     this.mesh.add(engine);
 
     // Tail Plane
-
     const geomTailPlane = new THREE.BoxGeometry(15, 20, 5, 1, 1, 1);
     const matTailPlane = new THREE.MeshPhongMaterial({ color: CONSTANTS.COLORS.red, shading: THREE.FlatShading });
     const tailPlane = new THREE.Mesh(geomTailPlane, matTailPlane);
@@ -159,10 +158,12 @@ export default class Airplane {
       this.mesh.rotateX(Math.cos(this.mesh.rotation.z) * ROTATION_SPEED);
       this.mesh.rotateY(Math.sin(this.mesh.rotation.z) * -ROTATION_SPEED);
     }
-    //this.mesh.translateY(this.mesh.rotation.z);
-    // console.log(this.mesh.rotation.z);
-    // this.mesh.translateZ(0.1)
-    // this.mesh.translateZ(this.mesh.rotation.y);
-    // this.mesh.translateX(0.1);
+    this.mesh.translateX(1);
+    if (this.mesh.position.y < 0) this.mesh.position.y = 0;
+    if (this.mesh.position.y > CONSTANTS.WORLD_SIZE / 2) this.mesh.position.y = CONSTANTS.WORLD_SIZE / 2;
+    if (this.mesh.position.x < -CONSTANTS.WORLD_SIZE / 2) this.mesh.position.x = -CONSTANTS.WORLD_SIZE / 2;
+    if (this.mesh.position.x > CONSTANTS.WORLD_SIZE / 2) this.mesh.position.x = CONSTANTS.WORLD_SIZE / 2;
+    if (this.mesh.position.z < -CONSTANTS.WORLD_SIZE / 2) this.mesh.position.z = -CONSTANTS.WORLD_SIZE / 2;
+    if (this.mesh.position.z > CONSTANTS.WORLD_SIZE / 2) this.mesh.position.z = CONSTANTS.WORLD_SIZE / 2;
   }
 }
