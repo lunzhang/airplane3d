@@ -18,7 +18,7 @@ export default class Game {
   start(name) {
     this.initListeners();
     this.initSocket();
-    // this.socket.emit('enter', this.airplane.toObject());
+    this.socket.emit('enter', this.airplane.toObject());
     this.animate();
   }
 
@@ -26,17 +26,18 @@ export default class Game {
     // constant update of other airplanes
     this.socket.on('update', (airplanes) => {
       Object.keys(airplanes).forEach((prop) => {
+        const plane = airplanes[prop];
         if (prop !== this.socket.id) {
-          const airplane = this.airplanes[prop];
-          if (airplane) {
+          const currentPlane = this.airplanes[prop];
+          if (currentPlane) {
             // update airplane
-            airplane.mesh.position.copy(mesh[prop].position);
-            airplane.mesh.rotation.copy(mesh[prop].rotation);
+            currentPlane.mesh.position.copy(plane.position);
+            currentPlane.mesh.rotation.copy(plane.rotation);
           } else {
             // create new airplane
             const newPlane = new Airplane();
-            newPlane.mesh.position.copy(airplanes[prop].position);
-            newPlane.mesh.rotation.copy(tanks[prop].rotation);
+            newPlane.mesh.position.copy(plane.position);
+            newPlane.mesh.rotation.copy(plane.rotation);
             this.airplanes[prop] = newPlane;
           }
         }
@@ -46,7 +47,7 @@ export default class Game {
       Object.keys(this.airplanes).forEach((prop) => {
         const plane = airplanes[prop];
         if (!plane) {
-          this.airplanes[prop].destroy();
+          this.scene.remove(this.airplanes[prop].mesh);
           delete this.airplanes[prop];
         }
       });
@@ -258,6 +259,6 @@ export default class Game {
     // render scene
     this.renderer.render(this.scene, this.camera);
 
-    // this.socket.emit('update', this.airplane.toObject());
+    this.socket.emit('update', this.airplane.toObject());
   }
 }

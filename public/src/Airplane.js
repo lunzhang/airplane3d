@@ -166,4 +166,12 @@ export default class Airplane {
     if (this.mesh.position.z < -CONSTANTS.WORLD_SIZE / 2) this.mesh.position.z = -CONSTANTS.WORLD_SIZE / 2;
     if (this.mesh.position.z > CONSTANTS.WORLD_SIZE / 2) this.mesh.position.z = CONSTANTS.WORLD_SIZE / 2;
   }
+
+  toObject() {
+    return {
+      name: this.name,
+      position: this.mesh.position,
+      rotation: this.mesh.rotation,
+    };
+  }
 }
