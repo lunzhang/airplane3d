@@ -101,16 +101,16 @@ export default class Game {
 
     // add ground
     // const loader = new THREE.TextureLoader();
-		// const groundTexture = loader.load('src/grasslight-big.jpg');
-		// groundTexture.wrapS = groundTexture.wrapT = THREE.RepeatWrapping;
-		// groundTexture.repeat.set(25, 25);
-		// groundTexture.anisotropy = 16;
-		// const groundMaterial = new THREE.MeshLambertMaterial({ map: groundTexture });
-		// const groundMesh = new THREE.Mesh(new THREE.PlaneBufferGeometry(CONSTANTS.WORLD_SIZE, CONSTANTS.WORLD_SIZE), groundMaterial);
-		// groundMesh.rotation.x = - Math.PI / 2;
-		// groundMesh.receiveShadow = true;
+    // const groundTexture = loader.load('src/grasslight-big.jpg');
+    // groundTexture.wrapS = groundTexture.wrapT = THREE.RepeatWrapping;
+    // groundTexture.repeat.set(25, 25);
+    // groundTexture.anisotropy = 16;
+    // const groundMaterial = new THREE.MeshLambertMaterial({ map: groundTexture });
+    // const groundMesh = new THREE.Mesh(new THREE.PlaneBufferGeometry(CONSTANTS.WORLD_SIZE, CONSTANTS.WORLD_SIZE), groundMaterial);
+    // groundMesh.rotation.x = - Math.PI / 2;
+    // groundMesh.receiveShadow = true;
     // console.log(groundMesh.position, positionX, positionZ);
-		// this.scene.add(groundMesh);
+    // this.scene.add(groundMesh);
 
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(this.wrapper.clientWidth, this.wrapper.clientHeight);
@@ -223,17 +223,17 @@ export default class Game {
     const circleDistZ = Math.abs(a.position.z - b.position.z);
 
     // false
-    if (circleDistX > (CONSTANTS.TANK_SIZE_X / 2 + CONSTANTS.BULLET_RADIUS) ||
-        circleDistZ > (CONSTANTS.TANK_SIZE_Z / 2 + CONSTANTS.BULLET_RADIUS)) {
+    if (circleDistX > (CONSTANTS.TANK_SIZE_X / 2 + CONSTANTS.BULLET_RADIUS)
+        || circleDistZ > (CONSTANTS.TANK_SIZE_Z / 2 + CONSTANTS.BULLET_RADIUS)) {
       return false;
     }
 
-    const cornerDistanceSQ = Math.pow(circleDistX - CONSTANTS.TANK_SIZE_X / 2, 2) +
-        Math.pow(circleDistZ - CONSTANTS.TANK_SIZE_Z / 2, 2);
+    const cornerDistanceSQ = Math.pow(circleDistX - CONSTANTS.TANK_SIZE_X / 2, 2)
+        + Math.pow(circleDistZ - CONSTANTS.TANK_SIZE_Z / 2, 2);
 
     // true
-    if (cornerDistanceSQ <= (CONSTANTS.BULLET_RADIUS) || circleDistX <= (CONSTANTS.TANK_SIZE_X / 2) ||
-        circleDistZ <= (CONSTANTS.TANK_SIZE_Z / 2)) {
+    if (cornerDistanceSQ <= (CONSTANTS.BULLET_RADIUS) || circleDistX <= (CONSTANTS.TANK_SIZE_X / 2)
+        || circleDistZ <= (CONSTANTS.TANK_SIZE_Z / 2)) {
       return true;
     }
     return false;
@@ -254,7 +254,7 @@ export default class Game {
     this.camera.position.z = this.airplane.mesh.position.z;
     this.camera.position.x = this.airplane.mesh.position.x - 350;
     this.camera.lookAt(this.airplane.mesh.position);
-    //this.airplane.mesh.translateX(1);
+    // this.airplane.mesh.translateX(1);
     // render scene
     this.renderer.render(this.scene, this.camera);
 
