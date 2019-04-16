@@ -144,6 +144,7 @@ export default class Airplane {
   }
 
   update() {
+    this.propeller.rotation.x += 0.2;
     if (this.rotateUp) {
       this.mesh.rotateZ(ROTATION_SPEED);
     }

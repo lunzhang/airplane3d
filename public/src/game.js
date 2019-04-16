@@ -97,21 +97,22 @@ export default class Game {
      // Set the direction of the light
     shadowLight.position.set(150, 350, 350);
 
+    this.scene.background = new THREE.Color(0xcce0ff);
+    this.scene.fog = new THREE.Fog(0xcce0ff, 777);
     this.scene.add(hemisphereLight);
     this.scene.add(shadowLight);
 
     // add ground
-    // const loader = new THREE.TextureLoader();
-    // const groundTexture = loader.load('src/grasslight-big.jpg');
-    // groundTexture.wrapS = groundTexture.wrapT = THREE.RepeatWrapping;
-    // groundTexture.repeat.set(25, 25);
-    // groundTexture.anisotropy = 16;
-    // const groundMaterial = new THREE.MeshLambertMaterial({ map: groundTexture });
-    // const groundMesh = new THREE.Mesh(new THREE.PlaneBufferGeometry(CONSTANTS.WORLD_SIZE, CONSTANTS.WORLD_SIZE), groundMaterial);
-    // groundMesh.rotation.x = - Math.PI / 2;
-    // groundMesh.receiveShadow = true;
-    // console.log(groundMesh.position, positionX, positionZ);
-    // this.scene.add(groundMesh);
+    const loader = new THREE.TextureLoader();
+    const groundTexture = loader.load('src/grasslight-big.jpg');
+    groundTexture.wrapS = groundTexture.wrapT = THREE.RepeatWrapping;
+    groundTexture.repeat.set(25, 25);
+    groundTexture.anisotropy = 16;
+    const groundMaterial = new THREE.MeshLambertMaterial({ map: groundTexture });
+    const groundMesh = new THREE.Mesh(new THREE.PlaneBufferGeometry(CONSTANTS.WORLD_SIZE, CONSTANTS.WORLD_SIZE), groundMaterial);
+    groundMesh.rotation.x = - Math.PI / 2;
+    groundMesh.receiveShadow = true;
+    this.scene.add(groundMesh);
 
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(this.wrapper.clientWidth, this.wrapper.clientHeight);
@@ -253,7 +254,7 @@ export default class Game {
     this.camera.up.x = 1;
     this.camera.position.y = this.airplane.mesh.position.y + 100;
     this.camera.position.z = this.airplane.mesh.position.z;
-    this.camera.position.x = this.airplane.mesh.position.x - 500;
+    this.camera.position.x = this.airplane.mesh.position.x - 800;
     this.camera.lookAt(this.airplane.mesh.position);
     // render scene
     this.renderer.render(this.scene, this.camera);
